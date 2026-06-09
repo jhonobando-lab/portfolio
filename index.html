@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jhon Obando — Head of Product Design</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#080808; --bg-1:#0e0e0e; --bg-2:#141414; --bg-3:#1a1a1a;
+      --line:rgba(255,255,255,0.06); --line-md:rgba(255,255,255,0.10); --line-hi:rgba(255,255,255,0.18);
+      --t1:#f5f5f5; --t2:#888; --t3:#444;
+      --accent:#e8ff6e; --accent-fg:#1a1e00;
+      --radius:10px; --radius-sm:6px; --pill:999px;
+      --max:820px; --font:'Inter',-apple-system,sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family:var(--font); background:var(--bg); color:var(--t1); font-size:14px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+    a { color:inherit; text-decoration:none; }
+    [data-lang] { transition: opacity .15s; }
+
+    /* NAV */
+    nav { position:sticky; top:0; z-index:100; background:rgba(8,8,8,0.90); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid var(--line); }
+    .nav-inner { max-width:var(--max); margin:0 auto; padding:0 24px; display:flex; justify-content:space-between; align-items:center; height:52px; }
+    .nav-logo { font-size:14px; font-weight:500; letter-spacing:-0.01em; color:var(--t1); }
+    .nav-right { display:flex; align-items:center; gap:16px; }
+    .nav-links { display:flex; gap:24px; list-style:none; }
+    .nav-links a { font-size:13px; color:var(--t3); transition:color .15s; }
+    .nav-links a:hover { color:var(--t2); }
+
+    /* LANG TOGGLE */
+    .lang-toggle {
+      display:flex; align-items:center;
+      background:var(--bg-2); border:1px solid var(--line-md);
+      border-radius:var(--pill); padding:3px;
+      gap:2px;
+    }
+    .lang-btn {
+      font-size:11px; font-weight:500; letter-spacing:.04em;
+      padding:4px 10px; border-radius:var(--pill);
+      border:none; background:transparent;
+      color:var(--t3); cursor:pointer; font-family:var(--font);
+      transition:all .15s;
+    }
+    .lang-btn.active {
+      background:var(--accent); color:var(--accent-fg);
+    }
+
+    .nav-cta { font-size:12px; font-weight:500; background:var(--accent); color:var(--accent-fg); border-radius:var(--radius-sm); padding:6px 14px; transition:opacity .15s; }
+    .nav-cta:hover { opacity:.85; }
+
+    /* LAYOUT */
+    .wrap { max-width:var(--max); margin:0 auto; padding:0 24px; }
+    section { padding:72px 0; }
+    section + section { border-top:1px solid var(--line); }
+    .eyebrow { font-size:11px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--t3); margin-bottom:28px; }
+
+    /* HERO */
+    #hero { padding:88px 0 72px; }
+    .hero-status { display:inline-flex; align-items:center; gap:7px; border:1px solid var(--line-md); border-radius:var(--pill); padding:5px 13px; margin-bottom:28px; font-size:12px; color:var(--t2); }
+    .status-dot { width:6px; height:6px; border-radius:50%; background:#4ade80; box-shadow:0 0 0 3px rgba(74,222,128,.15); animation:blink 2.4s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.35} }
+    h1 { font-size:clamp(30px,5vw,44px); font-weight:400; line-height:1.08; letter-spacing:-0.04em; color:var(--t1); margin-bottom:20px; }
+    h1 strong { font-weight:400; color:var(--accent); }
+    .hero-bio { font-size:14px; color:var(--t2); line-height:1.75; max-width:500px; margin-bottom:32px; }
+    .hero-actions { display:flex; gap:10px; flex-wrap:wrap; }
+    .btn { display:inline-flex; align-items:center; gap:7px; padding:9px 18px; border-radius:var(--radius-sm); font-size:13px; font-weight:500; cursor:pointer; border:none; font-family:var(--font); transition:all .15s; }
+    .btn-accent { background:var(--accent); color:var(--accent-fg); }
+    .btn-accent:hover { opacity:.88; }
+    .btn-ghost { background:transparent; color:var(--t2); border:1px solid var(--line-md); }
+    .btn-ghost:hover { border-color:var(--line-hi); color:var(--t1); }
+    .hero-meta { display:flex; align-items:center; gap:20px; margin-top:40px; padding-top:28px; border-top:1px solid var(--line); }
+    .hero-meta-item { display:flex; flex-direction:column; gap:3px; }
+    .hero-meta-val { font-size:20px; font-weight:300; letter-spacing:-0.03em; color:var(--t1); }
+    .hero-meta-val em { font-style:normal; color:var(--accent); font-size:14px; }
+    .hero-meta-desc { font-size:11px; color:var(--t3); }
+    .hero-meta-sep { width:1px; height:32px; background:var(--line); }
+
+    /* EXPERIENCE */
+    .exp-item { display:grid; grid-template-columns:148px 1fr; gap:28px; padding:28px 0; border-bottom:1px solid var(--line); }
+    .exp-item:last-child { border-bottom:none; }
+    .exp-period { font-size:12px; color:var(--t3); margin-bottom:8px; line-height:1.4; }
+    .exp-badge { display:inline-block; font-size:10px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; color:var(--t3); border:1px solid var(--line-md); border-radius:var(--pill); padding:3px 10px; }
+    .exp-role { font-size:15px; font-weight:500; color:var(--t1); margin-bottom:2px; }
+    .exp-company { font-size:13px; color:var(--t3); margin-bottom:14px; }
+    .exp-points { display:flex; flex-direction:column; gap:7px; }
+    .exp-point { display:flex; align-items:flex-start; gap:10px; font-size:13px; color:var(--t2); line-height:1.55; }
+    .exp-point::before { content:''; display:block; width:3px; height:3px; border-radius:50%; background:var(--t3); margin-top:8px; flex-shrink:0; }
+    .num { color:var(--accent); font-weight:500; }
+
+    /* PROJECTS */
+    .proj-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
+    .proj-card { background:var(--bg-1); padding:24px; cursor:pointer; transition:background .15s; }
+    .proj-card:hover { background:var(--bg-2); }
+    .proj-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+    .proj-glyph { font-size:22px; width:42px; height:42px; background:var(--bg-2); border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; }
+    .proj-sector { font-size:10px; font-weight:500; text-transform:uppercase; letter-spacing:.07em; color:var(--t3); border:1px solid var(--line); border-radius:var(--pill); padding:3px 9px; }
+    .proj-name { font-size:14px; font-weight:500; color:var(--t1); margin-bottom:6px; }
+    .proj-desc { font-size:12px; color:var(--t3); line-height:1.55; margin-bottom:16px; }
+    .proj-tags { display:flex; gap:6px; flex-wrap:wrap; }
+    .proj-tag { font-size:11px; color:var(--t3); background:var(--bg-3); border-radius:4px; padding:2px 8px; }
+
+    /* SKILLS */
+    .skills-cols { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+    .sk-group { margin-bottom:24px; }
+    .sk-label { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em; color:var(--t3); margin-bottom:10px; }
+    .pills { display:flex; flex-wrap:wrap; gap:6px; }
+    .pill { font-size:12px; color:var(--t2); background:var(--bg-1); border:1px solid var(--line); border-radius:var(--pill); padding:4px 12px; transition:border-color .15s,color .15s; }
+    .pill:hover { border-color:var(--line-hi); color:var(--t1); }
+    .pill-accent { font-size:12px; color:#c8e040; background:rgba(232,255,110,.07); border:1px solid rgba(232,255,110,.15); border-radius:var(--pill); padding:4px 12px; }
+
+    /* MUSIC */
+    .music-shell { background:var(--bg-1); border:1px solid var(--line); border-radius:var(--radius); padding:28px 24px; display:flex; align-items:center; gap:20px; }
+    .music-icon { width:48px; height:48px; border-radius:var(--radius-sm); background:var(--bg-3); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+    .music-title { font-size:14px; font-weight:500; color:var(--t1); margin-bottom:4px; }
+    .music-sub { font-size:12px; color:var(--t3); line-height:1.5; }
+    .music-sub code { background:var(--bg-3); border:1px solid var(--line); border-radius:4px; padding:1px 6px; font-size:11px; color:var(--t2); }
+
+    /* EDUCATION */
+    .edu-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .edu-card { background:var(--bg-1); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; }
+    .edu-name { font-size:13px; font-weight:500; color:var(--t1); margin-bottom:4px; line-height:1.4; }
+    .edu-inst { font-size:12px; color:var(--t3); }
+
+    /* CONTACT */
+    .contact-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+    .contact-link { display:flex; align-items:center; gap:14px; background:var(--bg-1); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; transition:border-color .15s; }
+    .contact-link:hover { border-color:var(--line-hi); }
+    .contact-ico { width:36px; height:36px; border-radius:var(--radius-sm); background:var(--bg-3); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-size:15px; color:var(--t2); flex-shrink:0; }
+    .contact-lbl { font-size:11px; color:var(--t3); text-transform:uppercase; letter-spacing:.06em; margin-bottom:2px; }
+    .contact-val { font-size:13px; color:var(--t1); }
+
+    /* FOOTER */
+    footer { border-top:1px solid var(--line); padding:22px 24px; }
+    .footer-inner { max-width:var(--max); margin:0 auto; display:flex; justify-content:space-between; align-items:center; }
+    .footer-l { font-size:12px; color:var(--t3); }
+    .footer-r { display:flex; gap:20px; }
+    .footer-r a { font-size:12px; color:var(--t3); transition:color .15s; }
+    .footer-r a:hover { color:var(--t2); }
+
+    @media (max-width:600px) {
+      .nav-links { display:none; }
+      .exp-item { grid-template-columns:1fr; gap:6px; }
+      .proj-grid,.skills-cols,.contact-grid,.edu-grid { grid-template-columns:1fr; }
+      .hero-meta { flex-wrap:wrap; gap:16px; }
+      .hero-meta-sep { display:none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">Jhon Obando</div>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#experiencia" data-lang="es">experiencia</a><a href="#experiencia" data-lang="en" style="display:none">experience</a></li>
+        <li><a href="#proyectos" data-lang="es">proyectos</a><a href="#proyectos" data-lang="en" style="display:none">projects</a></li>
+        <li><a href="#skills">skills</a></li>
+        <li><a href="#contacto">contacto</a></li>
+      </ul>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('es')">ES</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+      <a href="mailto:jhonobando@gmail.com" class="nav-cta" data-lang="es">escribir</a>
+      <a href="mailto:jhonobando@gmail.com" class="nav-cta" data-lang="en" style="display:none">contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="wrap">
+    <div class="hero-status">
+      <div class="status-dot"></div>
+      <span data-lang="es">disponible para colaborar · Bogotá, Colombia</span>
+      <span data-lang="en" style="display:none">open to collaborate · Bogotá, Colombia</span>
+    </div>
+
+    <h1 data-lang="es">Head of Product Design.<br>Pienso en <strong>sistemas,</strong><br>no en pantallas.</h1>
+    <h1 data-lang="en" style="display:none">Head of Product Design.<br>I think in <strong>systems,</strong><br>not screens.</h1>
+
+    <p class="hero-bio" data-lang="es">Más de 8 años construyendo productos digitales y equipos de diseño de alto desempeño en fintech, insurtech y fleet tech. Especialista en design systems, investigación de usuarios y DesignOps — conecto experiencia con objetivos de negocio.</p>
+    <p class="hero-bio" data-lang="en" style="display:none">8+ years building digital products and high-performance design teams across fintech, insurtech and fleet tech. Specialist in design systems, user research and DesignOps — bridging user experience with business goals.</p>
+
+    <div class="hero-actions">
+      <a href="mailto:jhonobando@gmail.com" class="btn btn-accent">
+        <span data-lang="es">contactar</span><span data-lang="en" style="display:none">contact me</span>
+      </a>
+      <a href="https://be.net/kadiedgraphic" target="_blank" rel="noopener" class="btn btn-ghost">Behance ↗</a>
+      <a href="https://www.linkedin.com/in/jhonobandorodriguez" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn ↗</a>
+    </div>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="hero-meta-val">8<em>+</em></div>
+        <div class="hero-meta-desc" data-lang="es">años en product design</div>
+        <div class="hero-meta-desc" data-lang="en" style="display:none">years in product design</div>
+      </div>
+      <div class="hero-meta-sep"></div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-val">3<em>×</em></div>
+        <div class="hero-meta-desc" data-lang="es">equipos construidos desde cero</div>
+        <div class="hero-meta-desc" data-lang="en" style="display:none">teams built from scratch</div>
+      </div>
+      <div class="hero-meta-sep"></div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-val">30<em>%</em></div>
+        <div class="hero-meta-desc" data-lang="es">reducción en tiempos de entrega</div>
+        <div class="hero-meta-desc" data-lang="en" style="display:none">reduction in delivery time</div>
+      </div>
+      <div class="hero-meta-sep"></div>
+      <div class="hero-meta-item">
+        <div class="hero-meta-val">5</div>
+        <div class="hero-meta-desc" data-lang="es">diseñadores liderados hoy</div>
+        <div class="hero-meta-desc" data-lang="en" style="display:none">designers led today</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCIA -->
+<section id="experiencia">
+  <div class="wrap">
+    <p class="eyebrow" data-lang="es">experiencia profesional</p>
+    <p class="eyebrow" data-lang="en" style="display:none">professional experience</p>
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-period">Oct 2023<br><span data-lang="es">Presente</span><span data-lang="en" style="display:none">Present</span></div>
+        <span class="exp-badge">Fleet Tech</span>
+      </div>
+      <div>
+        <div class="exp-role" data-lang="es">Líder de Equipo UX/UI</div>
+        <div class="exp-role" data-lang="en" style="display:none">UX/UI Team Lead</div>
+        <div class="exp-company">Satrack · Bogotá (<span data-lang="es">remoto</span><span data-lang="en" style="display:none">remote</span>)</div>
+        <div class="exp-points">
+          <div class="exp-point" data-lang="es">Construí el primer equipo de UX/UI de la compañía — <span class="num">5 diseñadores</span>, procesos y cultura de diseño instaurados desde cero.</div>
+          <div class="exp-point" data-lang="en" style="display:none">Built the company's first UX/UI team — <span class="num">5 designers</span>, processes and design culture established from scratch.</div>
+          <div class="exp-point" data-lang="es">Diseñé e implementé el primer Design System: <span class="num">−30%</span> en tiempos de entrega, coherencia visual en todos los productos.</div>
+          <div class="exp-point" data-lang="en" style="display:none">Designed and implemented the first Design System: <span class="num">−30%</span> in delivery times, visual consistency across all products.</div>
+          <div class="exp-point" data-lang="es">Introduje investigación de usuarios en proyectos core — <span class="num">+20%</span> en satisfacción del cliente.</div>
+          <div class="exp-point" data-lang="en" style="display:none">Introduced user research in core projects — <span class="num">+20%</span> in customer satisfaction.</div>
+          <div class="exp-point" data-lang="es">Posicioné diseño como actor estratégico: OKRs de UX, reportes ejecutivos de impacto, colaboración transversal con producto y negocio.</div>
+          <div class="exp-point" data-lang="en" style="display:none">Positioned design as a strategic player: UX OKRs, executive impact reports, cross-functional collaboration with product and business.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-period">Oct 2021<br>Oct 2023</div>
+        <span class="exp-badge">Fintech</span>
+      </div>
+      <div>
+        <div class="exp-role" data-lang="es">Líder de Equipo UX/UI</div>
+        <div class="exp-role" data-lang="en" style="display:none">UX/UI Team Lead</div>
+        <div class="exp-company">IRIS Bank · Bogotá</div>
+        <div class="exp-points">
+          <div class="exp-point" data-lang="es">Consolidé el equipo de diseño de UX desde cero — metodologías, procesos y alto desempeño.</div>
+          <div class="exp-point" data-lang="en" style="display:none">Built the UX design team from scratch — methodologies, processes and high performance.</div>
+          <div class="exp-point" data-lang="es">Lideré IrisCard e IrisPay con adopción rápida. Research cuali/cuantitativo: <span class="num">−15%</span> tasa de abandono, <span class="num">+18%</span> satisfacción percibida.</div>
+          <div class="exp-point" data-lang="en" style="display:none">Led IrisCard and IrisPay with fast adoption. Quali/quant research: <span class="num">−15%</span> drop-off rate, <span class="num">+18%</span> perceived satisfaction.</div>
+          <div class="exp-point" data-lang="es">Implementé metodología ágil para diseño: <span class="num">−20%</span> en ciclos de entrega.</div>
+          <div class="exp-point" data-lang="en" style="display:none">Implemented agile methodology for design: <span class="num">−20%</span> in delivery cycles.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-period">Ago 2020<br>Oct 2021</div>
+        <span class="exp-badge">Banca</span>
+      </div>
+      <div>
+        <div class="exp-role" data-lang="es">Diseñador Senior UX/UI</div>
+        <div class="exp-role" data-lang="en" style="display:none">Senior UX/UI Designer</div>
+        <div class="exp-company">Aval Digital Labs · Bogotá</div>
+        <div class="exp-points">
+          <div class="exp-point" data-lang="es">UX/UI para Banco de Occidente, Banco Popular y AV Villas — <span class="num">−15%</span> errores en procesos clave.</div>
+          <div class="exp-point" data-lang="en" style="display:none">UX/UI for Banco de Occidente, Banco Popular and AV Villas — <span class="num">−15%</span> errors in key processes.</div>
+          <div class="exp-point" data-lang="es">Puente entre banca y diseño: necesidades de negocio convertidas en interfaces intuitivas con documentación UX completa.</div>
+          <div class="exp-point" data-lang="en" style="display:none">Bridge between banking and design: business needs translated into intuitive interfaces with full UX documentation.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-period">Dic 2019<br>Mar 2020</div>
+        <span class="exp-badge">Startup</span>
+      </div>
+      <div>
+        <div class="exp-role" data-lang="es">Líder de Equipo UX/UI</div>
+        <div class="exp-role" data-lang="en" style="display:none">UX/UI Team Lead</div>
+        <div class="exp-company">Peiky S.A.S · Bogotá</div>
+        <div class="exp-points">
+          <div class="exp-point" data-lang="es">Design System: <span class="num">−25%</span> retrabajo y consistencia visual en toda la plataforma.</div>
+          <div class="exp-point" data-lang="en" style="display:none">Design System: <span class="num">−25%</span> rework reduction and visual consistency across the platform.</div>
+          <div class="exp-point" data-lang="es">Comunidad de ventas digitales (chat sales) — <span class="num">+5.000 usuarios</span> en el primer lanzamiento.</div>
+          <div class="exp-point" data-lang="en" style="display:none">Digital sales community (chat sales) — <span class="num">5,000+ users</span> on first launch.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div>
+        <div class="exp-period">Jul 2017<br>Dic 2019</div>
+        <span class="exp-badge">Loyalty</span>
+      </div>
+      <div>
+        <div class="exp-role" data-lang="es">Diseñador Senior UX/UI</div>
+        <div class="exp-role" data-lang="en" style="display:none">Senior UX/UI Designer</div>
+        <div class="exp-company">IATAI Share Service Center</div>
+        <div class="exp-points">
+          <div class="exp-point" data-lang="es">Productos internacionales: Miles, Borgun Costco, LifeMiles, My Rewards Visa Loyalty Solutions, Care by Novae.</div>
+          <div class="exp-point" data-lang="en" style="display:none">International products: Miles, Borgun Costco, LifeMiles, My Rewards Visa Loyalty Solutions, Care by Novae.</div>
+          <div class="exp-point" data-lang="es">Lideré ecosistema My Rewards Loyalty Solution para Visa Latinoamérica — múltiples canales, mayor fidelización regional.</div>
+          <div class="exp-point" data-lang="en" style="display:none">Led the My Rewards Loyalty Solution ecosystem for Visa Latin America — multiple channels, increased regional customer retention.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROYECTOS -->
+<section id="proyectos">
+  <div class="wrap">
+    <p class="eyebrow">
+      <span data-lang="es">proyectos destacados — </span>
+      <span data-lang="en" style="display:none">featured projects — </span>
+      <a href="https://be.net/kadiedgraphic" target="_blank" style="color:var(--t3);border-bottom:1px solid var(--line)">be.net/kadiedgraphic ↗</a>
+    </p>
+    <div class="proj-grid">
+
+      <div class="proj-card" onclick="window.open('https://be.net/kadiedgraphic','_blank')">
+        <div class="proj-top">
+          <div class="proj-glyph">🧩</div>
+          <span class="proj-sector">Design System</span>
+        </div>
+        <div class="proj-name">Design System Satrack</div>
+        <div class="proj-desc" data-lang="es">Primer sistema de diseño de la compañía. Tokens, componentes, gobierno y documentación. −30% en tiempos de entrega.</div>
+        <div class="proj-desc" data-lang="en" style="display:none">Company's first design system. Tokens, components, governance and documentation. −30% in delivery times.</div>
+        <div class="proj-tags"><span class="proj-tag">Figma</span><span class="proj-tag">Tokens</span><span class="proj-tag">DesignOps</span></div>
+      </div>
+
+      <div class="proj-card" onclick="window.open('https://be.net/kadiedgraphic','_blank')">
+        <div class="proj-top">
+          <div class="proj-glyph">🗺</div>
+          <span class="proj-sector">Dashboard</span>
+        </div>
+        <div class="proj-name">Torre de Control</div>
+        <div class="proj-desc" data-lang="es">Dashboard de monitoreo de flotas en tiempo real. Research, arquitectura de información y UX de alta densidad de datos.</div>
+        <div class="proj-desc" data-lang="en" style="display:none">Real-time fleet monitoring dashboard. Research, information architecture and high-density data UX.</div>
+        <div class="proj-tags"><span class="proj-tag">Research</span><span class="proj-tag">UX</span><span class="proj-tag">Data viz</span></div>
+      </div>
+
+      <div class="proj-card" onclick="window.open('https://be.net/kadiedgraphic','_blank')">
+        <div class="proj-top">
+          <div class="proj-glyph">💳</div>
+          <span class="proj-sector">Fintech</span>
+        </div>
+        <div class="proj-name">IrisCard + IrisPay</div>
+        <div class="proj-desc" data-lang="es">Productos core de IRIS Bank: control de gastos y pagos. Desde concepto hasta lanzamiento con adopción acelerada.</div>
+        <div class="proj-desc" data-lang="en" style="display:none">Core IRIS Bank products: expense control and payments. From concept to launch with accelerated adoption.</div>
+        <div class="proj-tags"><span class="proj-tag">Product Design</span><span class="proj-tag">Prototyping</span><span class="proj-tag">Testing</span></div>
+      </div>
+
+      <div class="proj-card" onclick="window.open('https://be.net/kadiedgraphic','_blank')">
+        <div class="proj-top">
+          <div class="proj-glyph">🏆</div>
+          <span class="proj-sector">Loyalty</span>
+        </div>
+        <div class="proj-name">My Rewards — Visa Latam</div>
+        <div class="proj-desc" data-lang="es">Ecosistema de recompensas multicanal para Visa Latinoamérica. Experiencia integral que incrementó la fidelización regional.</div>
+        <div class="proj-desc" data-lang="en" style="display:none">Multi-channel rewards ecosystem for Visa Latin America. End-to-end experience that increased regional customer loyalty.</div>
+        <div class="proj-tags"><span class="proj-tag">UX Strategy</span><span class="proj-tag">Multi-channel</span><span class="proj-tag">Interaction</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="wrap">
+    <p class="eyebrow" data-lang="es">habilidades</p>
+    <p class="eyebrow" data-lang="en" style="display:none">skills</p>
+    <div class="skills-cols">
+      <div>
+        <div class="sk-group">
+          <div class="sk-label" data-lang="es">liderazgo & estrategia</div>
+          <div class="sk-label" data-lang="en" style="display:none">leadership & strategy</div>
+          <div class="pills">
+            <span class="pill" data-lang="es">Dirección de equipos</span><span class="pill" data-lang="en" style="display:none">Team leadership</span>
+            <span class="pill">DesignOps</span>
+            <span class="pill">Product Strategy</span>
+            <span class="pill">OKRs & KPIs</span>
+            <span class="pill" data-lang="es">Storytelling ejecutivo</span><span class="pill" data-lang="en" style="display:none">Executive storytelling</span>
+            <span class="pill" data-lang="es">Gestión del talento</span><span class="pill" data-lang="en" style="display:none">Talent development</span>
+          </div>
+        </div>
+        <div class="sk-group">
+          <div class="sk-label" data-lang="es">diseño & research</div>
+          <div class="sk-label" data-lang="en" style="display:none">design & research</div>
+          <div class="pills">
+            <span class="pill">Design Systems</span>
+            <span class="pill">UX Research</span>
+            <span class="pill">Usability Testing</span>
+            <span class="pill">Information Architecture</span>
+            <span class="pill">Interaction Design</span>
+          </div>
+        </div>
+        <div class="sk-group">
+          <div class="sk-label" data-lang="es">metodologías</div>
+          <div class="sk-label" data-lang="en" style="display:none">methodologies</div>
+          <div class="pills">
+            <span class="pill">Lean UX</span><span class="pill">JTBD</span>
+            <span class="pill">Design Thinking</span><span class="pill">Scrum</span>
+            <span class="pill">Double Diamond</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="sk-group">
+          <div class="sk-label" data-lang="es">herramientas</div>
+          <div class="sk-label" data-lang="en" style="display:none">tools</div>
+          <div class="pills">
+            <span class="pill-accent">Figma</span><span class="pill-accent">FigJam</span>
+            <span class="pill-accent">Notion</span><span class="pill-accent">Maze</span>
+            <span class="pill-accent">Hotjar</span><span class="pill-accent">Mixpanel</span>
+            <span class="pill-accent">Framer</span><span class="pill-accent">Adobe XD</span>
+          </div>
+        </div>
+        <div class="sk-group">
+          <div class="sk-label" data-lang="es">sectores</div>
+          <div class="sk-label" data-lang="en" style="display:none">industries</div>
+          <div class="pills">
+            <span class="pill">Fintech</span><span class="pill">Insurtech</span>
+            <span class="pill">Fleet Tech</span><span class="pill">Banking</span>
+            <span class="pill">Loyalty</span>
+          </div>
+        </div>
+        <div class="sk-group">
+          <div class="sk-label" data-lang="es">idiomas</div>
+          <div class="sk-label" data-lang="en" style="display:none">languages</div>
+          <div class="pills">
+            <span class="pill" data-lang="es">Español — nativo</span><span class="pill" data-lang="en" style="display:none">Spanish — native</span>
+            <span class="pill" data-lang="es">Inglés — B1</span><span class="pill" data-lang="en" style="display:none">English — B1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÚSICA -->
+<section id="musica">
+  <div class="wrap">
+    <p class="eyebrow" data-lang="es">música — lo personal también importa</p>
+    <p class="eyebrow" data-lang="en" style="display:none">music — the personal side matters too</p>
+    <div class="music-shell">
+      <div class="music-icon">♫</div>
+      <div>
+        <div class="music-title" data-lang="es">Integración con Spotify — próximamente</div>
+        <div class="music-title" data-lang="en" style="display:none">Spotify integration — coming soon</div>
+        <div class="music-sub" data-lang="es">Conecta la Spotify API para mostrar tu <code>now playing</code> o últimas escuchas en tiempo real.</div>
+        <div class="music-sub" data-lang="en" style="display:none">Connect the Spotify API to display your <code>now playing</code> or recent tracks in real time.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCACIÓN -->
+<section id="educacion">
+  <div class="wrap">
+    <p class="eyebrow" data-lang="es">formación</p>
+    <p class="eyebrow" data-lang="en" style="display:none">education</p>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-name" data-lang="es">Diseñador Gráfico Profesional</div>
+        <div class="edu-name" data-lang="en" style="display:none">Professional Graphic Designer</div>
+        <div class="edu-inst">Universidad Los Libertadores</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-name" data-lang="es">Diplomado en UX Design</div>
+        <div class="edu-name" data-lang="en" style="display:none">UX Design Certificate</div>
+        <div class="edu-inst">MinTIC</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-name">Adobe Certified Expert</div>
+        <div class="edu-inst">Adobe</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-name" data-lang="es">Diseño Web Avanzado HTML5</div>
+        <div class="edu-name" data-lang="en" style="display:none">Advanced Web Design HTML5</div>
+        <div class="edu-inst">Cymetria</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-name" data-lang="es">Seminario de Usabilidad Web</div>
+        <div class="edu-name" data-lang="en" style="display:none">Web Usability Seminar</div>
+        <div class="edu-inst">Usability Day</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-name" data-lang="es">Publicidad Digital Convergente</div>
+        <div class="edu-name" data-lang="en" style="display:none">Convergent Digital Advertising</div>
+        <div class="edu-inst">Universidad Los Libertadores</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="wrap">
+    <p class="eyebrow" data-lang="es">contacto</p>
+    <p class="eyebrow" data-lang="en" style="display:none">contact</p>
+    <div class="contact-grid">
+      <a href="mailto:jhonobando@gmail.com" class="contact-link">
+        <div class="contact-ico">✉</div>
+        <div><div class="contact-lbl">Email</div><div class="contact-val">jhonobando@gmail.com</div></div>
+      </a>
+      <a href="https://www.linkedin.com/in/jhonobandorodriguez" target="_blank" rel="noopener" class="contact-link">
+        <div class="contact-ico">in</div>
+        <div><div class="contact-lbl">LinkedIn</div><div class="contact-val">jhonobandorodriguez</div></div>
+      </a>
+      <a href="https://be.net/kadiedgraphic" target="_blank" rel="noopener" class="contact-link">
+        <div class="contact-ico">Bē</div>
+        <div><div class="contact-lbl">Behance</div><div class="contact-val">kadiedgraphic</div></div>
+      </a>
+      <a href="tel:+573106898054" class="contact-link">
+        <div class="contact-ico">☎</div>
+        <div><div class="contact-lbl"><span data-lang="es">Teléfono</span><span data-lang="en" style="display:none">Phone</span></div><div class="contact-val">+57 310 689 8054</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-l">© 2026 Jhon Jairo Obando Rodriguez</div>
+    <div class="footer-r">
+      <a href="https://www.linkedin.com/in/jhonobandorodriguez" target="_blank">LinkedIn</a>
+      <a href="https://be.net/kadiedgraphic" target="_blank">Behance</a>
+      <a href="mailto:jhonobando@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      el.style.display = el.dataset.lang === lang ? '' : 'none';
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+    });
+    localStorage.setItem('lang', lang);
+  }
+
+  const saved = localStorage.getItem('lang') || 'es';
+  setLang(saved);
+</script>
+
+</body>
+</html>
