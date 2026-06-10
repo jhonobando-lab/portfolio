@@ -740,6 +740,12 @@
 
   async function trackVisit() {
     try {
+      // Capture origin
+      const referrer = document.referrer
+        ? new URL(document.referrer).hostname
+        : 'direct';
+      const page = window.location.href;
+
       // 1. Register visit
       await fetch(`${SUPABASE_URL}/rest/v1/visits`, {
         method: 'POST',
@@ -749,7 +755,11 @@
           'Authorization': `Bearer ${SUPABASE_KEY}`,
           'Prefer': 'return=minimal'
         },
-        body: JSON.stringify({ created_at: new Date().toISOString() })
+        body: JSON.stringify({
+          created_at: new Date().toISOString(),
+          referrer: referrer,
+          page: page
+        })
       });
 
       // 2. Get total count
