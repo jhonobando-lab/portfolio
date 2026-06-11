@@ -103,7 +103,7 @@
     .exp-point { display:flex; align-items:flex-start; gap:10px; font-size:13px; color:var(--t2); line-height:1.6; }
     /* bullet: accent color — clear affordance */
     .exp-point::before { content:''; display:block; width:3px; height:3px; border-radius:50%; background:var(--accent); margin-top:9px; flex-shrink:0; }
-    .num { color:var(--accent); font-weight:600; }
+    .num { color:var(--accent); font-weight:600; white-space:nowrap; }
 
     /* PROJECTS */
     /* individual cards with visible border instead of gap trick */
@@ -322,10 +322,10 @@
         <div class="exp-role" data-lang="en" style="display:none">UX/UI Team Lead</div>
         <div class="exp-company">Satrack · Bogotá (<span data-lang="es">remoto</span><span data-lang="en" style="display:none">remote</span>)</div>
         <div class="exp-points">
-          <div class="exp-point" data-lang="es">Construí el primer equipo de UX/UI de la compañía — procesos y cultura de diseño instaurados desde cero con <span class="num">5 diseñadores</span>.</div>
-          <div class="exp-point" data-lang="en" style="display:none">Built the company's first UX/UI team — processes and design culture from scratch with <span class="num">5 designers</span>.</div>
-          <div class="exp-point" data-lang="es">Diseñé e implementé el primer Design System — coherencia visual en todos los productos y <span class="num">−30%</span> en tiempos de entrega.</div>
-          <div class="exp-point" data-lang="en" style="display:none">Designed and implemented the first Design System — visual consistency across all products and <span class="num">−30%</span> in delivery times.</div>
+          <div class="exp-point" data-lang="es">Construí el primer equipo de UX/UI de la compañía — <span class="num">5 diseñadores</span>, procesos y cultura de diseño instaurados desde cero.</div>
+          <div class="exp-point" data-lang="en" style="display:none">Built the company's first UX/UI team — <span class="num">5 designers</span>, processes and design culture from scratch.</div>
+          <div class="exp-point" data-lang="es">Diseñé e implementé el primer Design System — <span class="num">−30%</span> en tiempos de entrega y coherencia visual en todos los productos.</div>
+          <div class="exp-point" data-lang="en" style="display:none">Designed and implemented the first Design System — <span class="num">−30%</span> in delivery times and visual consistency across all products.</div>
           <div class="exp-point" data-lang="es">Introduje investigación de usuarios en proyectos core — <span class="num">+20%</span> en satisfacción del cliente.</div>
           <div class="exp-point" data-lang="en" style="display:none">Introduced user research in core projects — <span class="num">+20%</span> in customer satisfaction.</div>
           <div class="exp-point" data-lang="es">Posicioné diseño como actor estratégico: OKRs de UX, reportes ejecutivos de impacto, colaboración transversal con producto y negocio.</div>
@@ -346,8 +346,10 @@
         <div class="exp-points">
           <div class="exp-point" data-lang="es">Consolidé el equipo de diseño de UX desde cero — metodologías, procesos y alto desempeño.</div>
           <div class="exp-point" data-lang="en" style="display:none">Built the UX design team from scratch — methodologies, processes and high performance.</div>
-          <div class="exp-point" data-lang="es">Lideré IrisCard e IrisPay con adopción rápida — research cuali/cuantitativo logró <span class="num">−15%</span> en tasa de abandono y <span class="num">+18%</span> en satisfacción percibida.</div>
-          <div class="exp-point" data-lang="en" style="display:none">Led IrisCard and IrisPay with fast adoption — quali/quant research achieved <span class="num">−15%</span> drop-off rate and <span class="num">+18%</span> perceived satisfaction.</div>
+          <div class="exp-point" data-lang="es">Lideré IrisCard e IrisPay con adopción rápida — research cuali/cuantitativo logró <span class="num">−15%</span> en tasa de abandono.</div>
+          <div class="exp-point" data-lang="en" style="display:none">Led IrisCard and IrisPay with fast adoption — quali/quant research achieved <span class="num">−15%</span> drop-off rate.</div>
+          <div class="exp-point" data-lang="es">Iteraciones validadas con usuarios generaron <span class="num">+18%</span> en satisfacción percibida.</div>
+          <div class="exp-point" data-lang="en" style="display:none">User-validated iterations generated <span class="num">+18%</span> in perceived satisfaction.</div>
           <div class="exp-point" data-lang="es">Implementé metodología ágil para diseño — <span class="num">−20%</span> en ciclos de entrega.</div>
           <div class="exp-point" data-lang="en" style="display:none">Implemented agile methodology for design — <span class="num">−20%</span> in delivery cycles.</div>
         </div>
