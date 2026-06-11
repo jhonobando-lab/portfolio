@@ -99,10 +99,12 @@
     .exp-role { font-size:15px; font-weight:500; color:var(--t1); margin-bottom:3px; }
     /* company: t2 not t3 */
     .exp-company { font-size:13px; color:var(--t2); margin-bottom:14px; }
-    .exp-points { display:flex; flex-direction:column; gap:8px; }
-    .exp-point { display:flex; align-items:flex-start; gap:10px; font-size:13px; color:var(--t2); line-height:1.6; }
-    /* bullet: accent color — clear affordance */
-    .exp-point::before { content:''; display:block; width:3px; height:3px; border-radius:50%; background:var(--accent); margin-top:9px; flex-shrink:0; }
+    .exp-points { display:flex; flex-direction:column; gap:10px; }
+    .exp-point { display:flex; align-items:baseline; justify-content:space-between; gap:16px; font-size:13px; color:var(--t2); line-height:1.6; }
+    .exp-point::before { display:none; }
+    .exp-text { flex:1; }
+    .exp-text::before { content:'·'; color:var(--accent); margin-right:8px; }
+    .exp-metric { flex-shrink:0; font-size:12px; font-weight:600; color:var(--accent); background:var(--accent-dim); border:1px solid var(--accent-border); border-radius:999px; padding:2px 10px; white-space:nowrap; }
     .num { color:var(--accent); font-weight:600; white-space:nowrap; }
 
     /* PROJECTS */
@@ -322,14 +324,14 @@
         <div class="exp-role" data-lang="en" style="display:none">UX/UI Team Lead</div>
         <div class="exp-company">Satrack · Bogotá (<span data-lang="es">remoto</span><span data-lang="en" style="display:none">remote</span>)</div>
         <div class="exp-points">
-          <div class="exp-point" data-lang="es">Construí el primer equipo de UX/UI de la compañía — <span class="num">5 diseñadores</span>, procesos y cultura de diseño instaurados desde cero.</div>
-          <div class="exp-point" data-lang="en" style="display:none">Built the company's first UX/UI team — <span class="num">5 designers</span>, processes and design culture from scratch.</div>
-          <div class="exp-point" data-lang="es">Diseñé e implementé el primer Design System — <span class="num">−30%</span> en tiempos de entrega y coherencia visual en todos los productos.</div>
-          <div class="exp-point" data-lang="en" style="display:none">Designed and implemented the first Design System — <span class="num">−30%</span> in delivery times and visual consistency across all products.</div>
-          <div class="exp-point" data-lang="es">Introduje investigación de usuarios en proyectos core — <span class="num">+20%</span> en satisfacción del cliente.</div>
-          <div class="exp-point" data-lang="en" style="display:none">Introduced user research in core projects — <span class="num">+20%</span> in customer satisfaction.</div>
-          <div class="exp-point" data-lang="es">Posicioné diseño como actor estratégico: OKRs de UX, reportes ejecutivos de impacto, colaboración transversal con producto y negocio.</div>
-          <div class="exp-point" data-lang="en" style="display:none">Positioned design as a strategic player: UX OKRs, executive impact reports, cross-functional collaboration with product and business.</div>
+          <div class="exp-point" data-lang="es"><span class="exp-text">Construí el primer equipo de UX/UI de la compañía — procesos y cultura de diseño desde cero</span><span class="exp-metric">5 diseñadores</span></div>
+          <div class="exp-point" data-lang="en" style="display:none"><span class="exp-text">Built the company's first UX/UI team — processes and design culture from scratch</span><span class="exp-metric">5 designers</span></div>
+          <div class="exp-point" data-lang="es"><span class="exp-text">Diseñé e implementé el primer Design System — coherencia visual en todos los productos</span><span class="exp-metric">−30% entrega</span></div>
+          <div class="exp-point" data-lang="en" style="display:none"><span class="exp-text">Designed and implemented the first Design System — visual consistency across all products</span><span class="exp-metric">−30% delivery</span></div>
+          <div class="exp-point" data-lang="es"><span class="exp-text">Introduje investigación de usuarios en proyectos core</span><span class="exp-metric">+20% satisfacción</span></div>
+          <div class="exp-point" data-lang="en" style="display:none"><span class="exp-text">Introduced user research in core projects</span><span class="exp-metric">+20% satisfaction</span></div>
+          <div class="exp-point" data-lang="es"><span class="exp-text">Posicioné diseño como actor estratégico: OKRs de UX, reportes ejecutivos y colaboración transversal con producto y negocio</span></div>
+          <div class="exp-point" data-lang="en" style="display:none"><span class="exp-text">Positioned design as a strategic player: UX OKRs, executive impact reports, cross-functional collaboration</span></div>
         </div>
       </div>
     </div>
@@ -344,14 +346,14 @@
         <div class="exp-role" data-lang="en" style="display:none">UX/UI Team Lead</div>
         <div class="exp-company">IRIS Bank · Bogotá</div>
         <div class="exp-points">
-          <div class="exp-point" data-lang="es">Consolidé el equipo de diseño de UX desde cero — metodologías, procesos y alto desempeño.</div>
-          <div class="exp-point" data-lang="en" style="display:none">Built the UX design team from scratch — methodologies, processes and high performance.</div>
-          <div class="exp-point" data-lang="es">Lideré IrisCard e IrisPay con adopción rápida — research cuali/cuantitativo logró <span class="num">−15%</span> en tasa de abandono.</div>
-          <div class="exp-point" data-lang="en" style="display:none">Led IrisCard and IrisPay with fast adoption — quali/quant research achieved <span class="num">−15%</span> drop-off rate.</div>
-          <div class="exp-point" data-lang="es">Iteraciones validadas con usuarios generaron <span class="num">+18%</span> en satisfacción percibida.</div>
-          <div class="exp-point" data-lang="en" style="display:none">User-validated iterations generated <span class="num">+18%</span> in perceived satisfaction.</div>
-          <div class="exp-point" data-lang="es">Implementé metodología ágil para diseño — <span class="num">−20%</span> en ciclos de entrega.</div>
-          <div class="exp-point" data-lang="en" style="display:none">Implemented agile methodology for design — <span class="num">−20%</span> in delivery cycles.</div>
+          <div class="exp-point" data-lang="es"><span class="exp-text">Consolidé el equipo de diseño de UX desde cero — metodologías, procesos y alto desempeño</span></div>
+          <div class="exp-point" data-lang="en" style="display:none"><span class="exp-text">Built the UX design team from scratch — methodologies, processes and high performance</span></div>
+          <div class="exp-point" data-lang="es"><span class="exp-text">Lideré IrisCard e IrisPay con adopción rápida — research cuali/cuantitativo</span><span class="exp-metric">−15% abandono</span></div>
+          <div class="exp-point" data-lang="en" style="display:none"><span class="exp-text">Led IrisCard and IrisPay with fast adoption — quali/quant research</span><span class="exp-metric">−15% drop-off</span></div>
+          <div class="exp-point" data-lang="es"><span class="exp-text">Iteraciones validadas con usuarios</span><span class="exp-metric">+18% satisfacción</span></div>
+          <div class="exp-point" data-lang="en" style="display:none"><span class="exp-text">User-validated iterations</span><span class="exp-metric">+18% satisfaction</span></div>
+          <div class="exp-point" data-lang="es"><span class="exp-text">Implementé metodología ágil para diseño</span><span class="exp-metric">−20% entrega</span></div>
+          <div class="exp-point" data-lang="en" style="display:none"><span class="exp-text">Implemented agile methodology for design</span><span class="exp-metric">−20% delivery</span></div>
         </div>
       </div>
     </div>
@@ -366,10 +368,10 @@
         <div class="exp-role" data-lang="en" style="display:none">Senior UX/UI Designer</div>
         <div class="exp-company">Aval Digital Labs · Bogotá</div>
         <div class="exp-points">
-          <div class="exp-point" data-lang="es">UX/UI para Banco de Occidente, Banco Popular y AV Villas — optimización de flujos con <span class="num">−15%</span> en errores de procesos clave.</div>
-          <div class="exp-point" data-lang="en" style="display:none">UX/UI for Banco de Occidente, Banco Popular and AV Villas — flow optimization with <span class="num">−15%</span> errors in key processes.</div>
-          <div class="exp-point" data-lang="es">Puente entre banca y diseño: necesidades de negocio convertidas en interfaces intuitivas con documentación UX completa.</div>
-          <div class="exp-point" data-lang="en" style="display:none">Bridge between banking and design: business needs translated into intuitive interfaces with full UX documentation.</div>
+          <div class="exp-point" data-lang="es"><span class="exp-text">UX/UI para Banco de Occidente, Banco Popular y AV Villas — optimización de flujos de transacción</span><span class="exp-metric">−15% errores</span></div>
+          <div class="exp-point" data-lang="en" style="display:none"><span class="exp-text">UX/UI for Banco de Occidente, Banco Popular and AV Villas — transaction flow optimization</span><span class="exp-metric">−15% errors</span></div>
+          <div class="exp-point" data-lang="es"><span class="exp-text">Puente entre banca y diseño: necesidades de negocio convertidas en interfaces intuitivas con documentación UX completa</span></div>
+          <div class="exp-point" data-lang="en" style="display:none"><span class="exp-text">Bridge between banking and design: business needs translated into intuitive interfaces with full UX documentation</span></div>
         </div>
       </div>
     </div>
@@ -384,10 +386,10 @@
         <div class="exp-role" data-lang="en" style="display:none">UX/UI Team Lead</div>
         <div class="exp-company">Peiky S.A.S · Bogotá</div>
         <div class="exp-points">
-          <div class="exp-point" data-lang="es">Design System: <span class="num">−25%</span> retrabajo y consistencia visual en toda la plataforma.</div>
-          <div class="exp-point" data-lang="en" style="display:none">Design System: <span class="num">−25%</span> rework reduction and visual consistency across the platform.</div>
-          <div class="exp-point" data-lang="es">Comunidad de ventas digitales (chat sales) — <span class="num">+5.000 usuarios</span> en el primer lanzamiento.</div>
-          <div class="exp-point" data-lang="en" style="display:none">Digital sales community (chat sales) — <span class="num">5,000+ users</span> on first launch.</div>
+          <div class="exp-point" data-lang="es"><span class="exp-text">Design System — consistencia visual en toda la plataforma</span><span class="exp-metric">−25% retrabajo</span></div>
+          <div class="exp-point" data-lang="en" style="display:none"><span class="exp-text">Design System — visual consistency across the platform</span><span class="exp-metric">−25% rework</span></div>
+          <div class="exp-point" data-lang="es"><span class="exp-text">Comunidad de ventas digitales (chat sales) — primer lanzamiento</span><span class="exp-metric">+5.000 usuarios</span></div>
+          <div class="exp-point" data-lang="en" style="display:none"><span class="exp-text">Digital sales community (chat sales) — first launch</span><span class="exp-metric">5,000+ users</span></div>
         </div>
       </div>
     </div>
@@ -402,10 +404,10 @@
         <div class="exp-role" data-lang="en" style="display:none">Senior UX/UI Designer</div>
         <div class="exp-company">IATAI Share Service Center</div>
         <div class="exp-points">
-          <div class="exp-point" data-lang="es">Productos internacionales: Miles, Borgun Costco, LifeMiles, My Rewards Visa Loyalty Solutions, Care by Novae.</div>
-          <div class="exp-point" data-lang="en" style="display:none">International products: Miles, Borgun Costco, LifeMiles, My Rewards Visa Loyalty Solutions, Care by Novae.</div>
-          <div class="exp-point" data-lang="es">Lideré ecosistema My Rewards Loyalty Solution para Visa Latinoamérica — múltiples canales, mayor fidelización regional.</div>
-          <div class="exp-point" data-lang="en" style="display:none">Led the My Rewards Loyalty Solution ecosystem for Visa Latin America — multiple channels, increased regional customer retention.</div>
+          <div class="exp-point" data-lang="es"><span class="exp-text">Productos internacionales: Miles, Borgun Costco, LifeMiles, My Rewards Visa Loyalty Solutions, Care by Novae</span></div>
+          <div class="exp-point" data-lang="en" style="display:none"><span class="exp-text">International products: Miles, Borgun Costco, LifeMiles, My Rewards Visa Loyalty Solutions, Care by Novae</span></div>
+          <div class="exp-point" data-lang="es"><span class="exp-text">Lideré ecosistema My Rewards Loyalty Solution para Visa Latinoamérica — múltiples canales, mayor fidelización regional</span></div>
+          <div class="exp-point" data-lang="en" style="display:none"><span class="exp-text">Led the My Rewards Loyalty Solution ecosystem for Visa Latin America — multiple channels, increased regional retention</span></div>
         </div>
       </div>
     </div>
