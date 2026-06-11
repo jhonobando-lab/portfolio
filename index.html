@@ -175,8 +175,21 @@
 
     /* CONTACT - icons only */
     .contact-grid { display:flex; gap:12px; flex-wrap:wrap; }
-    .contact-link { display:flex; align-items:center; justify-content:center; width:52px; height:52px; background:var(--bg-1); border:1px solid var(--line-md); border-radius:var(--radius); transition:border-color .15s, background .15s, color .15s; color:var(--t2); }
-    .contact-link:hover { border-color:var(--line-hi); background:var(--bg-2); color:var(--t1); }
+    .contact-link {
+      display:flex; align-items:center; justify-content:center;
+      width:52px; height:52px;
+      background:var(--accent-dim);
+      border:1px solid var(--accent-border);
+      border-radius:var(--radius);
+      transition:all .15s;
+      color:var(--accent);
+    }
+    .contact-link:hover {
+      background:var(--accent);
+      border-color:var(--accent);
+      color:var(--accent-fg);
+      transform: translateY(-2px);
+    }
 
     /* FOOTER */
     footer { border-top:1px solid var(--line-md); padding:24px; }
