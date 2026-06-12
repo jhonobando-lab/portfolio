@@ -203,6 +203,19 @@
     .footer-r a { font-size:12px; color:var(--t2); transition:color .15s; }
     .footer-r a:hover { color:var(--t1); }
 
+
+    /* SHARE BUTTON */
+    .share-btn {
+      display:inline-flex; align-items:center; gap:7px;
+      padding:8px 16px; border-radius:var(--radius-sm);
+      font-size:12px; font-weight:500; font-family:var(--font);
+      background:transparent; color:var(--t2);
+      border:1px solid var(--line-md);
+      cursor:pointer; transition:all .15s;
+    }
+    .share-btn:hover { border-color:var(--line-hi); color:var(--t1); }
+    .share-btn svg { flex-shrink:0; }
+
     /* VISIT COUNTER */
     .visit-counter { display:inline-flex; align-items:center; gap:7px; font-size:12px; color:var(--t2); }
     .visit-counter-dot { width:5px; height:5px; border-radius:50%; background:var(--accent); opacity:.8; }
@@ -252,7 +265,7 @@
         <button class="lang-btn active" onclick="setLang('es')">ES</button>
         <button class="lang-btn" onclick="setLang('en')">EN</button>
       </div>
-      <a href="#contacto" class="nav-cta" data-lang="es">escribir</a>
+      <a href="#contacto" class="nav-cta" data-lang="es">contactar</a>
       <a href="#contacto" class="nav-cta" data-lang="en" style="display:none">contact</a>
     </div>
   </div>
@@ -274,11 +287,16 @@
     <p class="hero-bio" data-lang="en" style="display:none">I believe the best design is the kind nobody notices — because it just works. I've spent 8 years building teams and digital products across fintech, insurtech and fleet tech, convinced that designing well means understanding the business as deeply as the user.</p>
 
     <div class="hero-actions">
-      <a href="mailto:jhonobando@gmail.com" class="btn btn-accent">
-        <span data-lang="es">contactar</span><span data-lang="en" style="display:none">contact me</span>
-      </a>
       <a href="https://be.net/kadiedgraphic" target="_blank" rel="noopener" class="btn btn-ghost">Behance ↗</a>
       <a href="https://www.linkedin.com/in/jhonobandorodriguez" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn ↗</a>
+      <button class="btn btn-accent" onclick="sharePage()" data-lang="es">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        compartir
+      </button>
+      <button class="btn btn-accent" onclick="sharePage()" data-lang="en" style="display:none">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        share
+      </button>
     </div>
 
     <div class="hero-meta">
@@ -763,6 +781,14 @@
       </a>
 
     </div>
+    <div style="margin-top:20px"><button class="share-btn" onclick="sharePage()" data-lang="es">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        compartir
+      </button>
+      <button class="share-btn" onclick="sharePage()" data-lang="en" style="display:none">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        share
+      </button></div>
   </div>
 </section>
 
@@ -845,6 +871,28 @@
 
     } catch(e) {
       console.log('Visit tracking unavailable');
+    }
+  }
+
+
+  // ── SHARE ──
+  function sharePage() {
+    const data = {
+      title: 'Jhon Obando — Head of Product Design',
+      text: 'Portfolio de Jhon Obando — Head of Product Design & IA',
+      url: window.location.href
+    };
+    if (navigator.share) {
+      navigator.share(data).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        const btns = document.querySelectorAll('.share-btn');
+        btns.forEach(b => {
+          const orig = b.innerHTML;
+          b.innerHTML = b.innerHTML.replace(/compartir|share/, '✓ copiado');
+          setTimeout(() => { b.innerHTML = orig; }, 2000);
+        });
+      });
     }
   }
 
