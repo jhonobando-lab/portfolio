@@ -9,6 +9,8 @@ const routes = {
   '/visa.html': 'visa.html',
   '/iris': 'iris.html',
   '/iris.html': 'iris.html',
+  '/dashboard': 'dashboard.html',
+  '/dashboard.html': 'dashboard.html',
 };
 
 http.createServer((req, res) => {
@@ -19,3 +21,4 @@ http.createServer((req, res) => {
     res.end(data);
   });
 }).listen(PORT, '0.0.0.0', () => console.log(`Running on ${PORT}`));
+
