@@ -97,6 +97,16 @@
     .btn-accent:hover{opacity:.88}
     .btn-ghost{background:transparent;color:var(--t2);border:1px solid var(--line-md)}
     .btn-ghost:hover{border-color:var(--line-hi);color:var(--t1)}
+
+    .share-btn {
+      display:inline-flex; align-items:center; gap:7px;
+      padding:8px 16px; border-radius:var(--radius);
+      font-size:12px; font-weight:500; font-family:var(--font);
+      background:transparent; color:var(--t2);
+      border:1px solid var(--line-md);
+      cursor:pointer; transition:all .15s;
+    }
+    .share-btn:hover { border-color:var(--line-hi); color:var(--t1); }
     @media(max-width:600px){
       .impact-grid,.process-grid{grid-template-columns:repeat(2,1fr)}
       .mockup-grid{grid-template-columns:1fr}
@@ -324,9 +334,33 @@
     <div class="cta-row">
       <a href="https://iris.com.co" target="_blank" rel="noopener" class="btn btn-accent">Ver IRIS hoy ↗</a>
       <a href="/" class="btn btn-ghost">← volver al portfolio</a>
+      <button class="share-btn" onclick="sharePage()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        compartir
+      </button>
     </div>
   </div>
 </section>
 
+<script>
+  function sharePage() {
+    const data = {
+      title: document.title,
+      text: document.title,
+      url: window.location.href
+    };
+    if (navigator.share) {
+      navigator.share(data).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        const btns = document.querySelectorAll('.share-btn');
+        btns.forEach(b => {
+          const orig = b.innerHTML;
+          b.innerHTML = b.innerHTML.replace(/compartir|share/, '✓ copiado');
+          setTimeout(() => { b.innerHTML = orig; }, 2000);
+        });
+      });
+    }
+  }</script>
 </body>
 </html>
