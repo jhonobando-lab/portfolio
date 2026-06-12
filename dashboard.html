@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Dashboard — Jhon Obando</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#090909;--bg-1:#111;--bg-2:#181818;--bg-3:#202020;
+      --line:rgba(255,255,255,0.08);--line-md:rgba(255,255,255,0.14);
+      --t1:#efefef;--t2:#a0a0a0;--t3:#555;
+      --accent:#e8ff6e;--accent-fg:#1a1e00;
+      --accent-dim:rgba(232,255,110,0.08);--accent-border:rgba(232,255,110,0.22);
+      --green:#4ade80;--red:#f87171;
+      --radius:10px;--font:'Inter',-apple-system,sans-serif;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--bg);color:var(--t1);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+
+    /* LOGIN */
+    #login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+    .login-box{background:var(--bg-1);border:1px solid var(--line-md);border-radius:14px;padding:40px 36px;width:100%;max-width:360px;text-align:center}
+    .login-logo{font-size:13px;font-weight:500;color:var(--t1);margin-bottom:8px}
+    .login-title{font-size:22px;font-weight:400;letter-spacing:-0.03em;margin-bottom:6px}
+    .login-sub{font-size:13px;color:var(--t3);margin-bottom:28px}
+    .login-input{width:100%;background:var(--bg-2);border:1px solid var(--line-md);border-radius:var(--radius);padding:11px 16px;font-size:14px;color:var(--t1);font-family:var(--font);outline:none;margin-bottom:12px;transition:border-color .15s}
+    .login-input:focus{border-color:var(--accent)}
+    .login-btn{width:100%;background:var(--accent);color:var(--accent-fg);border:none;border-radius:var(--radius);padding:11px;font-size:13px;font-weight:500;font-family:var(--font);cursor:pointer;transition:opacity .15s}
+    .login-btn:hover{opacity:.88}
+    .login-error{font-size:12px;color:var(--red);margin-top:8px;display:none}
+
+    /* DASHBOARD */
+    #dashboard{display:none;padding:0 24px 48px}
+    nav{position:sticky;top:0;z-index:100;background:rgba(9,9,9,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line-md);padding:0 24px;margin:0 -24px}
+    .nav-inner{max-width:960px;margin:0 auto;height:52px;display:flex;justify-content:space-between;align-items:center}
+    .nav-logo{font-size:14px;font-weight:500}
+    .nav-right{display:flex;align-items:center;gap:16px}
+    .nav-right a{font-size:13px;color:var(--t2);text-decoration:none}
+    .nav-right a:hover{color:var(--t1)}
+    .logout-btn{font-size:12px;color:var(--t3);background:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px;cursor:pointer;font-family:var(--font);transition:all .15s}
+    .logout-btn:hover{color:var(--t2);border-color:var(--line-md)}
+
+    .wrap{max-width:960px;margin:0 auto}
+    .page-header{padding:40px 0 28px;border-bottom:1px solid var(--line)}
+    .page-title{font-size:24px;font-weight:400;letter-spacing:-0.03em;margin-bottom:4px}
+    .page-sub{font-size:13px;color:var(--t3)}
+    .live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:6px;animation:blink 2s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+    /* STAT CARDS */
+    .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:28px 0}
+    .stat-card{background:var(--bg-1);border:1px solid var(--line-md);border-radius:var(--radius);padding:20px}
+    .stat-num{font-size:28px;font-weight:300;color:var(--t1);letter-spacing:-0.03em;margin-bottom:4px}
+    .stat-num span{color:var(--accent)}
+    .stat-label{font-size:12px;color:var(--t3)}
+
+    /* SECTIONS */
+    .section{margin-top:28px}
+    .section-title{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:16px}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+
+    /* CHART BARS */
+    .chart-card{background:var(--bg-1);border:1px solid var(--line-md);border-radius:var(--radius);padding:20px}
+    .chart-title{font-size:13px;font-weight:500;color:var(--t1);margin-bottom:16px}
+    .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .bar-label{font-size:12px;color:var(--t2);width:120px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .bar-track{flex:1;background:var(--bg-3);border-radius:4px;height:8px;overflow:hidden}
+    .bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width .6s ease}
+    .bar-val{font-size:12px;color:var(--t2);width:32px;text-align:right;flex-shrink:0}
+
+    /* EVENTS TABLE */
+    .events-table{width:100%;border-collapse:collapse}
+    .events-table th{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);text-align:left;padding:8px 12px;border-bottom:1px solid var(--line)}
+    .events-table td{font-size:12px;color:var(--t2);padding:8px 12px;border-bottom:1px solid var(--line)}
+    .events-table tr:last-child td{border-bottom:none}
+    .event-badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:999px;background:var(--bg-3);color:var(--t2)}
+    .event-badge.view{background:var(--accent-dim);color:var(--accent)}
+    .event-badge.click{background:rgba(74,222,128,0.08);color:var(--green)}
+    .event-badge.scroll{background:rgba(255,255,255,0.04);color:var(--t3)}
+    .event-badge.time{background:rgba(248,113,113,0.08);color:var(--red)}
+
+    .loading{text-align:center;padding:40px;color:var(--t3);font-size:13px}
+    .refresh-btn{background:transparent;border:1px solid var(--line-md);color:var(--t2);border-radius:var(--radius);padding:6px 14px;font-size:12px;font-family:var(--font);cursor:pointer;transition:all .15s}
+    .refresh-btn:hover{border-color:var(--line-md);color:var(--t1)}
+
+    @media(max-width:600px){
+      .stats-grid,.two-col,.three-col{grid-template-columns:1fr 1fr}
+      .stats-grid{grid-template-columns:1fr 1fr}
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">jhonobi.com</div>
+    <div class="login-title">Dashboard</div>
+    <div class="login-sub">Analytics privado del portfolio</div>
+    <input class="login-input" type="password" id="pwd-input" placeholder="contraseña" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button class="login-btn" onclick="doLogin()">Entrar</button>
+    <div class="login-error" id="login-error">Contraseña incorrecta</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-logo"><span class="live-dot"></span>Dashboard · jhonobi.com</div>
+      <div class="nav-right">
+        <a href="/">← volver al sitio</a>
+        <button class="logout-btn" onclick="logout()">salir</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <div class="page-header">
+      <div class="page-title">Analytics en tiempo real</div>
+      <div class="page-sub" id="last-updated">Cargando datos...</div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num" id="total-visits">—</div>
+        <div class="stat-label">visitas totales</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="unique-sessions">—</div>
+        <div class="stat-label">sesiones únicas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="mobile-pct">—<span>%</span></div>
+        <div class="stat-label">desde móvil</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="today-visits">—</div>
+        <div class="stat-label">visitas hoy</div>
+      </div>
+    </div>
+
+    <!-- ROW 1 -->
+    <div class="two-col section">
+      <div class="chart-card">
+        <div class="chart-title">Origen del tráfico</div>
+        <div id="referrer-chart"><div class="loading">Cargando...</div></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Páginas más visitadas</div>
+        <div id="pages-chart"><div class="loading">Cargando...</div></div>
+      </div>
+    </div>
+
+    <!-- ROW 2 -->
+    <div class="two-col section">
+      <div class="chart-card">
+        <div class="chart-title">Clics por destino</div>
+        <div id="clicks-chart"><div class="loading">Cargando...</div></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Profundidad de scroll</div>
+        <div id="scroll-chart"><div class="loading">Cargando...</div></div>
+      </div>
+    </div>
+
+    <!-- RECENT EVENTS -->
+    <div class="section">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <div class="section-title" style="margin-bottom:0">Eventos recientes</div>
+        <button class="refresh-btn" onclick="loadData()">↻ actualizar</button>
+      </div>
+      <div class="chart-card" style="padding:0;overflow:hidden">
+        <div id="events-table"><div class="loading">Cargando...</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://gbvhvqklyzzzbfyeejzk.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_9qgWi_bnmgHb3gZ6lrw0Lw_WbZmKHQM';
+  const PASSWORD = 'jhonobi2026';
+
+  function doLogin() {
+    const val = document.getElementById('pwd-input').value;
+    if (val === PASSWORD) {
+      sessionStorage.setItem('dash_auth', '1');
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      loadData();
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+    }
+  }
+
+  function logout() {
+    sessionStorage.removeItem('dash_auth');
+    location.reload();
+  }
+
+  // Auto-login if already authenticated
+  if (sessionStorage.getItem('dash_auth')) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+  }
+
+  async function fetchEvents() {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/events?select=*&order=created_at.desc&limit=1000`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    return res.json();
+  }
+
+  function renderBar(container, data, maxVal) {
+    if (!data.length) { container.innerHTML = '<div class="loading">Sin datos aún</div>'; return; }
+    container.innerHTML = data.map(([label, val]) => `
+      <div class="bar-row">
+        <div class="bar-label" title="${label}">${label}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.round(val/maxVal*100)}%"></div></div>
+        <div class="bar-val">${val}</div>
+      </div>`).join('');
+  }
+
+  function badgeClass(event) {
+    if (event.includes('page_view')) return 'view';
+    if (event.includes('click')) return 'click';
+    if (event.includes('scroll')) return 'scroll';
+    if (event.includes('time_on')) return 'time';
+    return '';
+  }
+
+  function timeAgo(ts) {
+    const diff = Math.floor((Date.now() - new Date(ts)) / 1000);
+    if (diff < 60) return `${diff}s`;
+    if (diff < 3600) return `${Math.floor(diff/60)}m`;
+    if (diff < 86400) return `${Math.floor(diff/3600)}h`;
+    return `${Math.floor(diff/86400)}d`;
+  }
+
+  async function loadData() {
+    if (!sessionStorage.getItem('dash_auth')) return;
+
+    try {
+      const events = await fetchEvents();
+      if (!Array.isArray(events)) return;
+
+      const now = new Date();
+      const todayStr = now.toISOString().slice(0, 10);
+
+      // Stats
+      const pageViews = events.filter(e => e.event === 'page_view');
+      const sessions = new Set(events.map(e => e.session_id)).size;
+      const mobileCount = events.filter(e => e.device === 'mobile').length;
+      const mobilePct = events.length ? Math.round(mobileCount / events.length * 100) : 0;
+      const todayViews = pageViews.filter(e => e.created_at?.slice(0,10) === todayStr).length;
+
+      document.getElementById('total-visits').textContent = pageViews.length;
+      document.getElementById('unique-sessions').textContent = sessions;
+      document.getElementById('mobile-pct').innerHTML = `${mobilePct}<span>%</span>`;
+      document.getElementById('today-visits').textContent = todayViews;
+
+      // Referrers
+      const refCount = {};
+      pageViews.forEach(e => { const r = e.referrer || 'direct'; refCount[r] = (refCount[r]||0)+1; });
+      const refData = Object.entries(refCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
+      renderBar(document.getElementById('referrer-chart'), refData, refData[0]?.[1] || 1);
+
+      // Pages
+      const pageCount = {};
+      pageViews.forEach(e => { const p = e.page || '/'; pageCount[p] = (pageCount[p]||0)+1; });
+      const pageData = Object.entries(pageCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
+      renderBar(document.getElementById('pages-chart'), pageData, pageData[0]?.[1] || 1);
+
+      // Clicks
+      const clickLabels = {
+        click_project_visa: 'Caso Visa',
+        click_project_iris: 'Caso IRIS',
+        click_whatsapp: 'WhatsApp',
+        click_linkedin: 'LinkedIn',
+        click_behance: 'Behance',
+        click_email: 'Email',
+        click_github: 'GitHub',
+        click_share: 'Compartir',
+      };
+      const clickCount = {};
+      events.filter(e => e.event?.startsWith('click')).forEach(e => {
+        const label = clickLabels[e.event] || e.event;
+        clickCount[label] = (clickCount[label]||0)+1;
+      });
+      const clickData = Object.entries(clickCount).sort((a,b)=>b[1]-a[1]);
+      renderBar(document.getElementById('clicks-chart'), clickData, clickData[0]?.[1] || 1);
+
+      // Scroll depth
+      const scrollCount = { '25%': 0, '50%': 0, '75%': 0, '100%': 0 };
+      events.filter(e => e.event?.startsWith('scroll_')).forEach(e => {
+        const m = e.event.match(/scroll_(\d+)/);
+        if (m) scrollCount[`${m[1]}%`] = (scrollCount[`${m[1]}%`]||0)+1;
+      });
+      const scrollData = Object.entries(scrollCount);
+      const scrollMax = Math.max(...Object.values(scrollCount), 1);
+      renderBar(document.getElementById('scroll-chart'), scrollData, scrollMax);
+
+      // Recent events table
+      const recent = events.slice(0, 40);
+      document.getElementById('events-table').innerHTML = `
+        <table class="events-table">
+          <thead><tr>
+            <th>Evento</th><th>Página</th><th>Origen</th><th>Dispositivo</th><th>Hace</th>
+          </tr></thead>
+          <tbody>${recent.map(e => `
+            <tr>
+              <td><span class="event-badge ${badgeClass(e.event)}">${e.event || '—'}</span></td>
+              <td>${e.page || '—'}</td>
+              <td>${e.referrer || 'direct'}</td>
+              <td>${e.device || '—'}</td>
+              <td>${timeAgo(e.created_at)}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>`;
+
+      document.getElementById('last-updated').textContent =
+        `Última actualización: ${now.toLocaleTimeString('es-CO')} · ${events.length} eventos totales`;
+
+    } catch(err) {
+      console.error('Dashboard error:', err);
+    }
+  }
+
+  // Auto-refresh every 30 seconds
+  if (sessionStorage.getItem('dash_auth')) {
+    loadData();
+    setInterval(loadData, 30000);
+  }
+</script>
+</body>
+</html>
