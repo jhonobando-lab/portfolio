@@ -466,6 +466,47 @@
 </style>
 
 <script>
+  const SUPABASE_URL = 'https://gbvhvqklyzzzbfyeejzk.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdidmh2cWtseXp6emJmeWVlanprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwNTQ1MjksImV4cCI6MjA5NjYzMDUyOX0.yrfvZBNPNhhoMfH2gDTTV3xgyRuIH1Ie1aVaHKxjBM4';
+  const DEVICE = window.innerWidth < 600 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop';
+  const SCREEN = `${window.screen.width}x${window.screen.height}`;
+  const REFERRER = document.referrer ? (() => { try { return new URL(document.referrer).hostname; } catch(e) { return document.referrer; } })() : 'direct';
+  const PAGE = window.location.pathname || '/obi';
+
+  async function track(event, extra = {}) {
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          session_id: SESSION_ID,
+          event, page: PAGE, referrer: REFERRER,
+          device: DEVICE, screen: SCREEN,
+          scroll_depth: extra.scroll_depth || 0,
+          created_at: new Date().toISOString()
+        })
+      });
+    } catch(e) {}
+  }
+
+  track('page_view');
+
+  const scrollMilestones = new Set();
+  window.addEventListener('scroll', () => {
+    const pct = Math.round((window.scrollY + window.innerHeight) / document.body.scrollHeight * 100);
+    [25,50,75,100].forEach(m => {
+      if (pct >= m && !scrollMilestones.has(m)) {
+        scrollMilestones.add(m);
+        track(`scroll_${m}`, { scroll_depth: m });
+      }
+    });
+  }, { passive: true });
+
   const WEBHOOK_URL = 'https://n8n-production-53ce0.up.railway.app/webhook/obi-portfolio-chat';
   const SESSION_ID = sessionStorage.getItem('obi_sid') || (() => {
     const id = Math.random().toString(36).slice(2) + Date.now().toString(36);
