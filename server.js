@@ -9,6 +9,8 @@ const routes = {
   '/visa.html': 'visa.html',
   '/iris': 'iris.html',
   '/iris.html': 'iris.html',
+  '/obi': 'obi.html',
+  '/obi.html': 'obi.html',
   '/dashboard': 'dashboard.html',
   '/dashboard.html': 'dashboard.html',
 };
