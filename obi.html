@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Obi — Asistente de IA personal · Jhon Obando</title>
   <meta name="description" content="Cómo construí mi propio asistente de IA estratégico desde cero usando Claude, n8n, Supabase y Telegram."/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNiIgZmlsbD0iIzBlMGUwZSIvPjxwb2x5Z29uIHBvaW50cz0iMTYsNCAyNiw5LjUgMjYsMjIuNSAxNiwyOCA2LDIyLjUgNiw5LjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2U4ZmY2ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMi41IiBmaWxsPSIjZThmZjZlIi8+PC9zdmc+"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
@@ -14,20 +15,22 @@
       --t1:#efefef;--t2:#a0a0a0;--t3:#555;
       --accent:#e8ff6e;--accent-fg:#1a1e00;
       --accent-dim:rgba(232,255,110,0.08);--accent-border:rgba(232,255,110,0.22);
-      --radius:10px;--max:720px;--font:'Inter',-apple-system,sans-serif;
+      --radius:10px;--radius-sm:6px;--pill:999px;--max:720px;--font:'Inter',-apple-system,sans-serif;
     }
     body{font-family:var(--font);background:var(--bg);color:var(--t1);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
     a{color:inherit;text-decoration:none}
 
     /* NAV */
-    nav{position:sticky;top:0;z-index:100;background:rgba(9,9,9,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line-md);padding:0 24px}
-    .nav-inner{max-width:var(--max);margin:0 auto;height:52px;display:flex;align-items:center;justify-content:space-between}
-    .nav-back{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--t2);transition:color .15s;cursor:pointer}
-    .nav-back:hover{color:var(--t1)}
-    .nav-logo{font-size:13px;font-weight:500;color:var(--t1)}
-    .lang-wrap{display:flex;gap:4px}
-    .lang-btn{background:none;border:1px solid var(--line-md);color:var(--t2);font-size:11px;font-family:var(--font);padding:3px 8px;border-radius:4px;cursor:pointer;transition:all .15s}
-    .lang-btn.active{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+    nav { position:sticky; top:0; z-index:100; background:rgba(9,9,9,0.92); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-bottom:1px solid var(--line-md); }
+    .nav-inner { max-width:var(--max); margin:0 auto; padding:0 24px; display:flex; justify-content:space-between; align-items:center; height:54px; }
+    .nav-logo { font-size:14px; font-weight:500; letter-spacing:-0.01em; color:var(--t1); }
+    .nav-right { display:flex; align-items:center; gap:16px; }
+    .lang-toggle { display:flex; align-items:center; background:var(--bg-2); border:1px solid var(--line-md); border-radius:var(--pill); padding:3px; gap:2px; }
+    .lang-btn { font-size:11px; font-weight:600; letter-spacing:.05em; padding:4px 11px; border-radius:var(--pill); border:none; background:transparent; color:var(--t2); cursor:pointer; font-family:var(--font); transition:all .15s; }
+    .lang-btn.active { background:var(--accent); color:var(--accent-fg); }
+    .lang-btn:not(.active):hover { color:var(--t1); }
+    .nav-back { font-size:13px; color:var(--t2); transition:color .15s; cursor:pointer; background:none; border:none; font-family:var(--font); padding:0; }
+    .nav-back:hover { color:var(--t1); }
 
     /* WRAP */
     .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
@@ -115,13 +118,13 @@
 
 <nav>
   <div class="nav-inner">
-    <button class="nav-back" onclick="window.location.href='/'" style="background:none;border:none;font-family:var(--font)">
-      ← <span data-lang="es">inicio</span><span data-lang="en" style="display:none">home</span>
-    </button>
+    <button class="nav-back" onclick="window.location.href='/'">← <span data-lang="es">inicio</span><span data-lang="en" style="display:none">home</span></button>
     <span class="nav-logo">Jhon Obando</span>
-    <div class="lang-wrap">
-      <button class="lang-btn active" onclick="setLang('es')">ES</button>
-      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('es')">ES</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -139,6 +142,13 @@
     <h1 data-lang="en" style="display:none">Obi — the assistant I built<br>because I <strong>needed it.</strong></h1>
     <p class="hero-sub" data-lang="es">Un sistema de IA personal construido desde cero con Claude, n8n, Supabase y Telegram. No un template, no un SaaS — un producto diseñado para resolver mis problemas reales como líder de producto.</p>
     <p class="hero-sub" data-lang="en" style="display:none">A personal AI system built from scratch with Claude, n8n, Supabase and Telegram. Not a template, not a SaaS — a product designed to solve my real problems as a product leader.</p>
+
+    <a href="#chat" style="display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:var(--accent-fg);font-size:14px;font-weight:600;padding:12px 24px;border-radius:var(--pill);text-decoration:none;margin-bottom:28px;transition:opacity .15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>
+      <span data-lang="es">Habla con Obi</span>
+      <span data-lang="en" style="display:none">Talk to Obi</span>
+    </a>
+
     <div class="hero-meta">
       <div class="meta-item">
         <span class="meta-label" data-lang="es">rol</span>
@@ -496,13 +506,21 @@
     }
   }
 
+  function parseMarkdown(text) {
+    return text
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      .replace(/##\s(.+)/g, '<strong style="font-size:13px;display:block;margin-bottom:4px">$1</strong>')
+      .replace(/\n/g, '<br>');
+  }
+
   function appendMessage(text, who) {
     const msgs = document.getElementById('chat-messages');
     const div = document.createElement('div');
     div.className = `msg msg--${who}`;
     div.innerHTML = `
       <span class="msg-label">${who === 'obi' ? 'Obi' : 'Tú'}</span>
-      <div class="msg-bubble msg-bubble--${who}">${text}</div>
+      <div class="msg-bubble msg-bubble--${who}">${who === 'obi' ? parseMarkdown(text) : text}</div>
     `;
     msgs.appendChild(div);
     msgs.scrollTop = msgs.scrollHeight;
