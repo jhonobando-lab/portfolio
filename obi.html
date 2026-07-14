@@ -508,9 +508,9 @@
   }, { passive: true });
 
   const WEBHOOK_URL = 'https://n8n-production-53ce0.up.railway.app/webhook/obi-portfolio-chat';
-  const SESSION_ID = sessionStorage.getItem('obi_sid') || (() => {
+  const SESSION_ID = sessionStorage.getItem('sid') || (() => {
     const id = Math.random().toString(36).slice(2) + Date.now().toString(36);
-    sessionStorage.setItem('obi_sid', id);
+    sessionStorage.setItem('sid', id);
     return id;
   })();
 
