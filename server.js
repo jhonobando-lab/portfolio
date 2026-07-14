@@ -11,6 +11,8 @@ const routes = {
   '/iris.html': 'iris.html',
   '/obi': 'obi.html',
   '/obi.html': 'obi.html',
+  '/ilustraciones': 'ilustraciones.html',        // ← agrega esta
+  '/ilustraciones.html': 'ilustraciones.html',   // ← y esta
   '/dashboard': 'dashboard.html',
   '/dashboard.html': 'dashboard.html',
 };
