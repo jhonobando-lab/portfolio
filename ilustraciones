@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Ilustraciones · Jhon Obando</title>
+  <meta name="description" content="Ilustraciones digitales de Jhon Obando — personajes, línea y color."/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNiIgZmlsbD0iIzBlMGUwZSIvPjxwb2x5Z29uIHBvaW50cz0iMTYsNCAyNiw5LjUgMjYsMjIuNSAxNiwyOCA2LDIyLjUgNiw5LjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2U4ZmY2ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMi41IiBmaWxsPSIjZThmZjZlIi8+PC9zdmc+"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#090909;--bg-1:#111;--bg-2:#161616;
+      --line:rgba(255,255,255,0.08);--line-md:rgba(255,255,255,0.14);
+      --t1:#efefef;--t2:#a0a0a0;--t3:#555;
+      --accent:#e8ff6e;--accent-fg:#1a1e00;
+      --accent-dim:rgba(232,255,110,0.08);--accent-border:rgba(232,255,110,0.22);
+      --radius:10px;--pill:999px;--max:960px;--font:'Inter',-apple-system,sans-serif;
+    }
+    body{font-family:var(--font);background:var(--bg);color:var(--t1);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:100;background:rgba(9,9,9,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line-md)}
+    .nav-inner{max-width:var(--max);margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;height:54px}
+    .nav-logo{font-size:14px;font-weight:500;letter-spacing:-0.01em;color:var(--t1)}
+    .nav-back{font-size:13px;color:var(--t2);transition:color .15s;cursor:pointer;background:none;border:none;font-family:var(--font);padding:0}
+    .nav-back:hover{color:var(--t1)}
+    .lang-toggle{display:flex;align-items:center;background:var(--bg-2);border:1px solid var(--line-md);border-radius:var(--pill);padding:3px;gap:2px}
+    .lang-btn{font-size:11px;font-weight:600;letter-spacing:.05em;padding:4px 11px;border-radius:var(--pill);border:none;background:transparent;color:var(--t2);cursor:pointer;font-family:var(--font);transition:all .15s}
+    .lang-btn.active{background:var(--accent);color:var(--accent-fg)}
+    .lang-btn:not(.active):hover{color:var(--t1)}
+
+    /* HERO */
+    .hero{padding:64px 24px 48px;max-width:var(--max);margin:0 auto}
+    .eyebrow{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px}
+    h1{font-size:clamp(28px,4vw,42px);font-weight:400;letter-spacing:-0.04em;line-height:1.1;margin-bottom:16px}
+    h1 em{font-style:normal;color:var(--accent)}
+    .hero-desc{font-size:15px;color:var(--t2);line-height:1.8;max-width:520px}
+
+    /* GRID */
+    .ilust-section{padding:0 24px 80px;max-width:var(--max);margin:0 auto}
+    .ilust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .ilust-item{
+      aspect-ratio:1;overflow:hidden;border-radius:10px;
+      background:var(--bg-2);cursor:pointer;position:relative;
+    }
+    .ilust-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+    .ilust-item:hover img{transform:scale(1.06)}
+
+    /* LIGHTBOX */
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+    .lightbox.open{opacity:1;pointer-events:all}
+    .lightbox img{max-width:90vw;max-height:88vh;object-fit:contain;border-radius:8px}
+    .lb-close{position:absolute;top:20px;right:24px;background:none;border:none;color:var(--t2);font-size:28px;cursor:pointer;line-height:1;padding:4px}
+    .lb-close:hover{color:var(--t1)}
+
+    /* FOOTER */
+    footer{border-top:1px solid var(--line-md);padding:24px}
+    .footer-inner{max-width:var(--max);margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+    .footer-l{font-size:12px;color:var(--t2)}
+    .footer-r{display:flex;gap:20px}
+    .footer-r a{font-size:12px;color:var(--t2);transition:color .15s}
+    .footer-r a:hover{color:var(--t1)}
+
+    @media(max-width:600px){
+      .ilust-grid{grid-template-columns:repeat(2,1fr);gap:8px}
+      .hero{padding:40px 24px 32px}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <button class="nav-back" onclick="window.location.href='/'">← <span data-lang="es">inicio</span><span data-lang="en" style="display:none">home</span></button>
+    <span class="nav-logo">Jhon Obando</span>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('es')">ES</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <p class="eyebrow" data-lang="es">ilustraciones</p>
+  <p class="eyebrow" data-lang="en" style="display:none">illustrations</p>
+  <h1 data-lang="es">Línea, color<br>y <em>personajes.</em></h1>
+  <h1 data-lang="en" style="display:none">Line, color<br>and <em>characters.</em></h1>
+  <p class="hero-desc" data-lang="es">La ilustración es mi forma de pensar fuera del sistema. Sin usuarios, sin flujos, sin métricas — solo la exploración de un trazo y lo que surge. Personajes que cuentan algo sin necesitar palabras, escenas que no necesitan contexto para sentirse reales.</p>
+  <p class="hero-desc" data-lang="en" style="display:none">Illustration is my way of thinking outside the system. No users, no flows, no metrics — just the exploration of a line and what emerges. Characters that say something without needing words, scenes that need no context to feel real.</p>
+</div>
+
+<div class="ilust-section">
+  <div class="ilust-grid">
+    <div class="ilust-item" onclick="openLb('/bird.jpg')"><img src="/bird.jpg" alt="bird" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/caminando.jpg')"><img src="/caminando.jpg" alt="caminando" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/chica.jpg')"><img src="/chica.jpg" alt="chica" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/conejo.jpg')"><img src="/conejo.jpg" alt="conejo" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/envolver-vestir.jpg')"><img src="/envolver-vestir.jpg" alt="envolver vestir" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/futuro verde.jpg')"><img src="/futuro verde.jpg" alt="futuro verde" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/hermanos-tattoo.jpg')"><img src="/hermanos-tattoo.jpg" alt="hermanos tattoo" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/joker.jpg')"><img src="/joker.jpg" alt="joker" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/k-d.jpg')"><img src="/k-d.jpg" alt="k-d" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/lavar-contar.jpg')"><img src="/lavar-contar.jpg" alt="lavar contar" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/leer.jpg')"><img src="/leer.jpg" alt="leer" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/marinero.jpg')"><img src="/marinero.jpg" alt="marinero" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/mural01.jpg')"><img src="/mural01.jpg" alt="mural 01" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/mural02.jpg')"><img src="/mural02.jpg" alt="mural 02" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/rick.jpg')"><img src="/rick.jpg" alt="rick" loading="lazy"></div>
+    <div class="ilust-item" onclick="openLb('/skul.jpg')"><img src="/skul.jpg" alt="skul" loading="lazy"></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLb()">
+  <button class="lb-close" onclick="closeLb()">×</button>
+  <img id="lb-img" src="" alt="">
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-l">© 2026 Jhon Obando</div>
+    <div class="footer-r">
+      <a href="https://www.linkedin.com/in/jhonobandorodriguez" target="_blank">LinkedIn</a>
+      <a href="https://be.net/kadiedgraphic" target="_blank">Behance</a>
+      <a href="mailto:jhonobando@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      el.style.display = el.dataset.lang === lang ? '' : 'none';
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+    });
+    localStorage.setItem('lang', lang);
+  }
+  const saved = localStorage.getItem('lang') || 'es';
+  setLang(saved);
+
+  function openLb(src) {
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLb(); });
+</script>
+</body>
+</html>
