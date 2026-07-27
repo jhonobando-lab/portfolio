@@ -66,8 +66,7 @@
     .bar-label{font-size:12px;color:var(--t2);width:120px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .bar-track{flex:1;background:var(--bg-3);border-radius:4px;height:8px;overflow:hidden}
     .bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width .6s ease}
-    .bar-fill.green{background:var(--green)}
-    .bar-val{font-size:12px;color:var(--t2);width:40px;text-align:right;flex-shrink:0}
+    .bar-val{font-size:12px;color:var(--t2);width:48px;text-align:right;flex-shrink:0}
     .events-table{width:100%;border-collapse:collapse}
     .events-table th{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);text-align:left;padding:8px 12px;border-bottom:1px solid var(--line)}
     .events-table td{font-size:12px;color:var(--t2);padding:8px 12px;border-bottom:1px solid var(--line)}
@@ -81,7 +80,6 @@
     .loading{text-align:center;padding:40px;color:var(--t3);font-size:13px}
     .refresh-btn{background:transparent;border:1px solid var(--line-md);color:var(--t2);border-radius:var(--radius);padding:6px 14px;font-size:12px;font-family:var(--font);cursor:pointer;transition:all .15s}
     .refresh-btn:hover{color:var(--t1)}
-    /* Retención por página */
     .retention-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
     .retention-page{font-size:12px;color:var(--t2);width:100px;flex-shrink:0}
     .retention-bars{flex:1;display:flex;flex-direction:column;gap:4px}
@@ -189,12 +187,17 @@
       </div>
     </div>
 
-    <!-- ROW 3 — Retención por página -->
-    <div class="section">
+    <!-- ROW 3 — Retención + Tiempo en página -->
+    <div class="two-col section">
       <div class="chart-card">
         <div class="chart-title">Retención por página</div>
-        <div class="chart-sub">% de sesiones que llegaron al scroll 100% en cada página — indica qué caso de estudio engancha más</div>
+        <div class="chart-sub">% de sesiones que llegaron al scroll 100%</div>
         <div id="retention-chart"><div class="loading">Cargando...</div></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Tiempo promedio en página</div>
+        <div class="chart-sub">segundos promedio por sesión — filtrado de rebotes &lt;5s</div>
+        <div id="time-chart"><div class="loading">Cargando...</div></div>
       </div>
     </div>
 
@@ -229,10 +232,7 @@
     }
   }
 
-  function logout() {
-    sessionStorage.removeItem('dash_auth');
-    location.reload();
-  }
+  function logout() { sessionStorage.removeItem('dash_auth'); location.reload(); }
 
   if (sessionStorage.getItem('dash_auth')) {
     document.getElementById('login-screen').style.display = 'none';
@@ -248,17 +248,17 @@
     return res.json();
   }
 
-  function calcTrend(thisWeek, lastWeek) {
-    if (lastWeek === 0 && thisWeek === 0) return { pct: 0, dir: 'flat' };
-    if (lastWeek === 0) return { pct: 100, dir: 'up' };
-    const pct = Math.round((thisWeek - lastWeek) / lastWeek * 100);
+  function calcTrend(a, b) {
+    if (b === 0 && a === 0) return { pct: 0, dir: 'flat' };
+    if (b === 0) return { pct: 100, dir: 'up' };
+    const pct = Math.round((a - b) / b * 100);
     return { pct: Math.abs(pct), dir: pct > 0 ? 'up' : pct < 0 ? 'down' : 'flat' };
   }
 
-  function renderTrend(elId, thisWeek, lastWeek, label = 'vs semana anterior') {
+  function renderTrend(elId, a, b, label = 'vs semana anterior') {
     const el = document.getElementById(elId);
     if (!el) return;
-    const { pct, dir } = calcTrend(thisWeek, lastWeek);
+    const { pct, dir } = calcTrend(a, b);
     const arrow = dir === 'up' ? '↑' : dir === 'down' ? '↓' : '→';
     const text = dir === 'flat' ? '→ sin cambio' : `${arrow} ${pct}%`;
     el.innerHTML = `<span class="trend ${dir}">${text} <span style="opacity:.6;font-weight:400">${label}</span></span>`;
@@ -266,57 +266,99 @@
 
   function renderBar(container, data, maxVal) {
     if (!data.length) { container.innerHTML = '<div class="loading">Sin datos aún</div>'; return; }
-    container.innerHTML = data.map(([label, val]) => `
+    container.innerHTML = data.map(([label, val, display]) => `
       <div class="bar-row">
         <div class="bar-label" title="${label}">${label}</div>
         <div class="bar-track"><div class="bar-fill" style="width:${Math.round(val/maxVal*100)}%"></div></div>
-        <div class="bar-val">${val}</div>
+        <div class="bar-val">${display !== undefined ? display : val}</div>
       </div>`).join('');
   }
 
-  // Colores para las barras de scroll por profundidad
-  const SCROLL_COLORS = { '25%': '#e8ff6e', '50%': '#b8d44e', '75%': '#88aa2e', '100%': '#4ade80' };
+  // Convierte segundos a formato legible
+  function fmtSecs(s) {
+    if (s < 60) return `${s}s`;
+    const m = Math.floor(s / 60);
+    const r = s % 60;
+    return r > 0 ? `${m}m ${r}s` : `${m}m`;
+  }
+
+  const SCROLL_COLORS = { '25%':'#e8ff6e', '50%':'#b8d44e', '75%':'#88aa2e', '100%':'#4ade80' };
 
   function renderRetention(container, pages, events) {
     if (!pages.length) { container.innerHTML = '<div class="loading">Sin datos aún</div>'; return; }
-
-    // Para cada página calcula sesiones únicas que llegaron a cada nivel de scroll
-    const depths = ['25%', '50%', '75%', '100%'];
-
+    const depths = ['25%','50%','75%','100%'];
     container.innerHTML = pages.map(({ page, visitors }) => {
       const pageEvents = events.filter(e => e.page === page);
       const bars = depths.map(d => {
-        const level = d.replace('%', '');
-        const sessionsAtDepth = new Set(
-          pageEvents.filter(e => e.event === `scroll_${level}`).map(e => e.session_id)
-        ).size;
-        const pct = visitors > 0 ? Math.round(sessionsAtDepth / visitors * 100) : 0;
-        return { d, sessionsAtDepth, pct };
+        const level = d.replace('%','');
+        const n = new Set(pageEvents.filter(e => e.event===`scroll_${level}`).map(e=>e.session_id)).size;
+        return { d, pct: visitors > 0 ? Math.round(n/visitors*100) : 0 };
       });
-
-      const readPct = bars.find(b => b.d === '100%')?.pct || 0;
-      const readBadge = readPct >= 50
-        ? `<span style="font-size:10px;color:var(--green);background:rgba(74,222,128,0.1);padding:1px 6px;border-radius:999px;margin-left:6px">🔥 ${readPct}% leyó completo</span>`
-        : readPct > 0
-        ? `<span style="font-size:10px;color:var(--t3);margin-left:6px">${readPct}% leyó completo</span>`
-        : '';
-
+      const readPct = bars.find(b=>b.d==='100%')?.pct||0;
+      const badge = readPct >= 50
+        ? `<span style="font-size:10px;color:var(--green);background:rgba(74,222,128,0.1);padding:1px 6px;border-radius:999px;margin-left:4px">🔥 ${readPct}%</span>`
+        : readPct > 0 ? `<span style="font-size:10px;color:var(--t3);margin-left:4px">${readPct}%</span>` : '';
       return `
         <div class="retention-row">
           <div class="retention-page" title="${page}">${page}</div>
           <div class="retention-bars">
-            ${bars.map(({ d, pct }) => `
+            ${bars.map(({d,pct})=>`
               <div class="retention-bar-wrap">
                 <div class="retention-bar-label">${d}</div>
-                <div class="retention-bar-track">
-                  <div class="retention-bar-fill" style="width:${pct}%;background:${SCROLL_COLORS[d]}"></div>
-                </div>
+                <div class="retention-bar-track"><div class="retention-bar-fill" style="width:${pct}%;background:${SCROLL_COLORS[d]}"></div></div>
                 <div class="retention-bar-val">${pct}%</div>
               </div>`).join('')}
           </div>
-          <div style="flex-shrink:0;font-size:11px;color:var(--t3);text-align:right;width:60px">${visitors} vis.${readBadge}</div>
+          <div style="flex-shrink:0;font-size:11px;color:var(--t3);text-align:right;width:56px">${visitors}v${badge}</div>
         </div>`;
     }).join('<div style="border-top:1px solid var(--line);margin:10px 0"></div>');
+  }
+
+  function renderTimeOnPage(container, events) {
+    // Extrae segundos de eventos time_on_page_Xs agrupados por página
+    // Filtra rebotes (<5s) y sesiones largas irreales (>30min)
+    const timeEvents = events.filter(e => /^time_on_page_\d+s$/.test(e.event));
+    if (!timeEvents.length) { container.innerHTML = '<div class="loading">Sin datos aún</div>'; return; }
+
+    const byPage = {};
+    timeEvents.forEach(e => {
+      const match = e.event.match(/time_on_page_(\d+)s/);
+      if (!match) return;
+      const secs = parseInt(match[1]);
+      if (secs < 5 || secs > 1800) return; // filtrar rebotes y outliers
+      const page = e.page || '/';
+      if (!byPage[page]) byPage[page] = [];
+      byPage[page].push(secs);
+    });
+
+    const pageData = Object.entries(byPage)
+      .map(([page, secsArr]) => {
+        const avg = Math.round(secsArr.reduce((a,b)=>a+b,0) / secsArr.length);
+        return { page, avg, count: secsArr.length };
+      })
+      .sort((a,b) => b.avg - a.avg);
+
+    if (!pageData.length) { container.innerHTML = '<div class="loading">Sin datos aún</div>'; return; }
+
+    const maxAvg = pageData[0].avg;
+
+    // Umbral de "buen engagement": >= 2 minutos
+    container.innerHTML = pageData.map(({ page, avg, count }) => {
+      const engageBadge = avg >= 120
+        ? `<span style="font-size:10px;color:var(--green);background:rgba(74,222,128,0.1);padding:1px 6px;border-radius:999px;margin-left:4px">✓ engaged</span>`
+        : '';
+      return `
+        <div class="bar-row" style="margin-bottom:14px">
+          <div class="bar-label" title="${page}" style="width:100px">${page}</div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:${Math.round(avg/maxAvg*100)}%;background:${avg>=120?'var(--green)':'var(--accent)'}"></div>
+          </div>
+          <div style="font-size:12px;color:var(--t2);width:80px;text-align:right;flex-shrink:0">
+            ${fmtSecs(avg)}${engageBadge}
+          </div>
+        </div>
+        <div style="font-size:10px;color:var(--t3);margin-top:-10px;margin-bottom:10px;margin-left:110px">${count} sesión${count!==1?'es':''}</div>`;
+    }).join('');
   }
 
   function badgeClass(event) {
@@ -343,18 +385,17 @@
       if (!Array.isArray(events)) return;
 
       const now = new Date();
-      const todayStr = now.toISOString().slice(0, 10);
-      const thisWeekStart = new Date(now - 7 * 24 * 60 * 60 * 1000);
-      const lastWeekStart = new Date(now - 14 * 24 * 60 * 60 * 1000);
-      const eventsThisWeek = events.filter(e => new Date(e.created_at) >= thisWeekStart);
-      const eventsLastWeek = events.filter(e => new Date(e.created_at) >= lastWeekStart && new Date(e.created_at) < thisWeekStart);
+      const todayStr = now.toISOString().slice(0,10);
+      const thisWeekStart = new Date(now - 7*24*60*60*1000);
+      const lastWeekStart = new Date(now - 14*24*60*60*1000);
+      const evThisW = events.filter(e => new Date(e.created_at) >= thisWeekStart);
+      const evLastW = events.filter(e => new Date(e.created_at) >= lastWeekStart && new Date(e.created_at) < thisWeekStart);
 
-      // Stats base
-      const pageViews = events.filter(e => e.event === 'page_view');
-      const sessions = new Set(events.map(e => e.session_id)).size;
-      const mobileCount = events.filter(e => e.device === 'mobile').length;
-      const mobilePct = events.length ? Math.round(mobileCount / events.length * 100) : 0;
-      const todayViews = pageViews.filter(e => e.created_at?.slice(0,10) === todayStr).length;
+      // Stats
+      const pageViews = events.filter(e => e.event==='page_view');
+      const sessions = new Set(events.map(e=>e.session_id)).size;
+      const mobilePct = events.length ? Math.round(events.filter(e=>e.device==='mobile').length/events.length*100) : 0;
+      const todayViews = pageViews.filter(e=>e.created_at?.slice(0,10)===todayStr).length;
 
       document.getElementById('total-visits').textContent = pageViews.length;
       document.getElementById('unique-sessions').textContent = sessions;
@@ -362,92 +403,68 @@
       document.getElementById('today-visits').textContent = todayViews;
 
       // Tendencias
-      renderTrend('trend-visits',
-        eventsThisWeek.filter(e => e.event === 'page_view').length,
-        eventsLastWeek.filter(e => e.event === 'page_view').length);
-      renderTrend('trend-sessions',
-        new Set(eventsThisWeek.map(e => e.session_id)).size,
-        new Set(eventsLastWeek.map(e => e.session_id)).size);
-      const mobThis = eventsThisWeek.length ? Math.round(eventsThisWeek.filter(e => e.device==='mobile').length/eventsThisWeek.length*100) : 0;
-      const mobLast = eventsLastWeek.length ? Math.round(eventsLastWeek.filter(e => e.device==='mobile').length/eventsLastWeek.length*100) : 0;
+      renderTrend('trend-visits', evThisW.filter(e=>e.event==='page_view').length, evLastW.filter(e=>e.event==='page_view').length);
+      renderTrend('trend-sessions', new Set(evThisW.map(e=>e.session_id)).size, new Set(evLastW.map(e=>e.session_id)).size);
+      const mobThis = evThisW.length ? Math.round(evThisW.filter(e=>e.device==='mobile').length/evThisW.length*100) : 0;
+      const mobLast = evLastW.length ? Math.round(evLastW.filter(e=>e.device==='mobile').length/evLastW.length*100) : 0;
       renderTrend('trend-mobile', mobThis, mobLast);
-      const yday = new Date(now - 24*60*60*1000).toISOString().slice(0,10);
+      const yday = new Date(now-24*60*60*1000).toISOString().slice(0,10);
       renderTrend('trend-today',
-        events.filter(e => e.event==='page_view' && e.created_at?.slice(0,10)===todayStr).length,
-        events.filter(e => e.event==='page_view' && e.created_at?.slice(0,10)===yday).length,
-        'vs ayer');
+        events.filter(e=>e.event==='page_view'&&e.created_at?.slice(0,10)===todayStr).length,
+        events.filter(e=>e.event==='page_view'&&e.created_at?.slice(0,10)===yday).length, 'vs ayer');
 
       // Recurrentes
-      const returningEvents = events.filter(e => e.event === 'returning_visitor');
-      const returningSessions = new Set(returningEvents.map(e => e.session_id)).size;
-      const returnPct = sessions > 0 ? Math.round(returningSessions / sessions * 100) : 0;
-      document.getElementById('returning-count').textContent = returningSessions;
-      document.getElementById('return-pct').innerHTML = `${returnPct}<span>%</span>`;
+      const retEv = events.filter(e=>e.event==='returning_visitor');
+      const retSes = new Set(retEv.map(e=>e.session_id)).size;
+      document.getElementById('returning-count').textContent = retSes;
+      document.getElementById('return-pct').innerHTML = `${sessions>0?Math.round(retSes/sessions*100):0}<span>%</span>`;
       renderTrend('trend-returning',
-        new Set(eventsThisWeek.filter(e => e.event==='returning_visitor').map(e => e.session_id)).size,
-        new Set(eventsLastWeek.filter(e => e.event==='returning_visitor').map(e => e.session_id)).size);
+        new Set(evThisW.filter(e=>e.event==='returning_visitor').map(e=>e.session_id)).size,
+        new Set(evLastW.filter(e=>e.event==='returning_visitor').map(e=>e.session_id)).size);
 
       // Referrers
-      const refCount = {};
-      pageViews.forEach(e => { const r = e.referrer||'direct'; refCount[r]=(refCount[r]||0)+1; });
-      const refData = Object.entries(refCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
+      const refCount={};
+      pageViews.forEach(e=>{const r=e.referrer||'direct';refCount[r]=(refCount[r]||0)+1;});
+      const refData=Object.entries(refCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
       renderBar(document.getElementById('referrer-chart'), refData, refData[0]?.[1]||1);
 
       // Pages
-      const pageCount = {};
-      pageViews.forEach(e => { const p = e.page||'/'; pageCount[p]=(pageCount[p]||0)+1; });
-      const pageData = Object.entries(pageCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
-      renderBar(document.getElementById('pages-chart'), pageData, pageData[0]?.[1]||1);
+      const pgCount={};
+      pageViews.forEach(e=>{const p=e.page||'/';pgCount[p]=(pgCount[p]||0)+1;});
+      const pgData=Object.entries(pgCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
+      renderBar(document.getElementById('pages-chart'), pgData, pgData[0]?.[1]||1);
 
       // Clicks
-      const clickLabels = {
-        click_project_visa:'Caso Visa', click_project_iris:'Caso IRIS',
-        click_whatsapp:'WhatsApp', click_linkedin:'LinkedIn',
-        click_behance:'Behance', click_email:'Email',
-        click_github:'GitHub', click_share:'Compartir',
-      };
-      const clickCount = {};
-      events.filter(e => e.event?.startsWith('click')).forEach(e => {
-        const label = clickLabels[e.event]||e.event;
-        clickCount[label]=(clickCount[label]||0)+1;
-      });
-      const clickData = Object.entries(clickCount).sort((a,b)=>b[1]-a[1]);
-      renderBar(document.getElementById('clicks-chart'), clickData, clickData[0]?.[1]||1);
+      const clickLabels={click_project_visa:'Caso Visa',click_project_iris:'Caso IRIS',click_whatsapp:'WhatsApp',click_linkedin:'LinkedIn',click_behance:'Behance',click_email:'Email',click_github:'GitHub',click_share:'Compartir'};
+      const clkCount={};
+      events.filter(e=>e.event?.startsWith('click')).forEach(e=>{const l=clickLabels[e.event]||e.event;clkCount[l]=(clkCount[l]||0)+1;});
+      const clkData=Object.entries(clkCount).sort((a,b)=>b[1]-a[1]);
+      renderBar(document.getElementById('clicks-chart'), clkData, clkData[0]?.[1]||1);
 
       // Scroll global
-      const scrollCount = {'25%':0,'50%':0,'75%':0,'100%':0};
-      events.filter(e => e.event?.startsWith('scroll_')).forEach(e => {
-        const m = e.event.match(/scroll_(\d+)/);
-        if (m) scrollCount[`${m[1]}%`]=(scrollCount[`${m[1]}%`]||0)+1;
-      });
-      const scrollData = Object.entries(scrollCount);
-      renderBar(document.getElementById('scroll-chart'), scrollData, Math.max(...Object.values(scrollCount),1));
+      const scCount={'25%':0,'50%':0,'75%':0,'100%':0};
+      events.filter(e=>e.event?.startsWith('scroll_')).forEach(e=>{const m=e.event.match(/scroll_(\d+)/);if(m)scCount[`${m[1]}%`]=(scCount[`${m[1]}%`]||0)+1;});
+      renderBar(document.getElementById('scroll-chart'), Object.entries(scCount), Math.max(...Object.values(scCount),1));
 
-      // Retención por página — sesiones únicas por página (solo páginas con scroll data)
-      const trackedPages = ['/', '/iris', '/visa', '/obi', '/ilustraciones'];
-      const retentionPages = trackedPages
-        .map(page => {
-          const visitors = new Set(events.filter(e => e.event==='page_view' && e.page===page).map(e => e.session_id)).size;
-          return { page, visitors };
-        })
-        .filter(p => p.visitors > 0)
-        .sort((a,b) => b.visitors - a.visitors);
+      // Retención por página
+      const trackedPages=['/','/iris','/visa','/obi','/ilustraciones'];
+      const retPages=trackedPages
+        .map(page=>({page,visitors:new Set(events.filter(e=>e.event==='page_view'&&e.page===page).map(e=>e.session_id)).size}))
+        .filter(p=>p.visitors>0).sort((a,b)=>b.visitors-a.visitors);
+      renderRetention(document.getElementById('retention-chart'), retPages, events);
 
-      renderRetention(document.getElementById('retention-chart'), retentionPages, events);
+      // Tiempo promedio en página
+      renderTimeOnPage(document.getElementById('time-chart'), events);
 
       // Eventos recientes
       document.getElementById('events-table').innerHTML = `
         <table class="events-table">
-          <thead><tr>
-            <th>Evento</th><th>Página</th><th>Origen</th><th>Dispositivo</th><th>Hace</th>
-          </tr></thead>
-          <tbody>${events.slice(0,40).map(e => `
+          <thead><tr><th>Evento</th><th>Página</th><th>Origen</th><th>Dispositivo</th><th>Hace</th></tr></thead>
+          <tbody>${events.slice(0,40).map(e=>`
             <tr>
               <td><span class="event-badge ${badgeClass(e.event)}">${e.event||'—'}</span></td>
-              <td>${e.page||'—'}</td>
-              <td>${e.referrer||'direct'}</td>
-              <td>${e.device||'—'}</td>
-              <td>${timeAgo(e.created_at)}</td>
+              <td>${e.page||'—'}</td><td>${e.referrer||'direct'}</td>
+              <td>${e.device||'—'}</td><td>${timeAgo(e.created_at)}</td>
             </tr>`).join('')}
           </tbody>
         </table>`;
