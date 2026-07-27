@@ -971,6 +971,11 @@
       });
     } catch(e) { console.error('visit counter:', e); }
   })();
+  // Visitante recurrente
+const VISITOR_KEY = 'jhon_visitor';
+const isReturning = !!localStorage.getItem(VISITOR_KEY);
+localStorage.setItem(VISITOR_KEY, Date.now());
+if (isReturning) track('returning_visitor');
 
   // 1. Page view
   track('page_view');
