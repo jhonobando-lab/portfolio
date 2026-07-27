@@ -51,10 +51,14 @@
 
     /* STAT CARDS */
     .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:28px 0}
+    .stats-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:28px}
     .stat-card{background:var(--bg-1);border:1px solid var(--line-md);border-radius:var(--radius);padding:20px}
+    .stat-card.accent{background:var(--accent-dim);border-color:var(--accent-border)}
     .stat-num{font-size:28px;font-weight:300;color:var(--t1);letter-spacing:-0.03em;margin-bottom:4px}
     .stat-num span{color:var(--accent)}
+    .stat-num.green{color:var(--green)}
     .stat-label{font-size:12px;color:var(--t3)}
+    .stat-sub{font-size:11px;color:var(--t3);margin-top:4px}
 
     /* SECTIONS */
     .section{margin-top:28px}
@@ -69,6 +73,7 @@
     .bar-label{font-size:12px;color:var(--t2);width:120px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .bar-track{flex:1;background:var(--bg-3);border-radius:4px;height:8px;overflow:hidden}
     .bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:width .6s ease}
+    .bar-fill.green{background:var(--green)}
     .bar-val{font-size:12px;color:var(--t2);width:32px;text-align:right;flex-shrink:0}
 
     /* EVENTS TABLE */
@@ -81,6 +86,7 @@
     .event-badge.click{background:rgba(74,222,128,0.08);color:var(--green)}
     .event-badge.scroll{background:rgba(255,255,255,0.04);color:var(--t3)}
     .event-badge.time{background:rgba(248,113,113,0.08);color:var(--red)}
+    .event-badge.returning{background:rgba(74,222,128,0.12);color:var(--green)}
 
     .loading{text-align:center;padding:40px;color:var(--t3);font-size:13px}
     .refresh-btn{background:transparent;border:1px solid var(--line-md);color:var(--t2);border-radius:var(--radius);padding:6px 14px;font-size:12px;font-family:var(--font);cursor:pointer;transition:all .15s}
@@ -89,6 +95,7 @@
     @media(max-width:600px){
       .stats-grid,.two-col,.three-col{grid-template-columns:1fr 1fr}
       .stats-grid{grid-template-columns:1fr 1fr}
+      .stats-grid-2{grid-template-columns:1fr 1fr}
     }
   </style>
 </head>
@@ -124,7 +131,7 @@
       <div class="page-sub" id="last-updated">Cargando datos...</div>
     </div>
 
-    <!-- STATS -->
+    <!-- STATS FILA 1 -->
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-num" id="total-visits">—</div>
@@ -141,6 +148,20 @@
       <div class="stat-card">
         <div class="stat-num" id="today-visits">—</div>
         <div class="stat-label">visitas hoy</div>
+      </div>
+    </div>
+
+    <!-- STATS FILA 2 — Retorno -->
+    <div class="stats-grid-2">
+      <div class="stat-card accent">
+        <div class="stat-num green" id="returning-count">—</div>
+        <div class="stat-label">visitantes recurrentes</div>
+        <div class="stat-sub">sesiones únicas que volvieron</div>
+      </div>
+      <div class="stat-card accent">
+        <div class="stat-num green" id="return-pct">—<span>%</span></div>
+        <div class="stat-label">tasa de retorno</div>
+        <div class="stat-sub">del total de sesiones únicas</div>
       </div>
     </div>
 
@@ -204,7 +225,6 @@
     location.reload();
   }
 
-  // Auto-login if already authenticated
   if (sessionStorage.getItem('dash_auth')) {
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
@@ -217,17 +237,18 @@
     return res.json();
   }
 
-  function renderBar(container, data, maxVal) {
+  function renderBar(container, data, maxVal, colorClass = '') {
     if (!data.length) { container.innerHTML = '<div class="loading">Sin datos aún</div>'; return; }
     container.innerHTML = data.map(([label, val]) => `
       <div class="bar-row">
         <div class="bar-label" title="${label}">${label}</div>
-        <div class="bar-track"><div class="bar-fill" style="width:${Math.round(val/maxVal*100)}%"></div></div>
+        <div class="bar-track"><div class="bar-fill ${colorClass}" style="width:${Math.round(val/maxVal*100)}%"></div></div>
         <div class="bar-val">${val}</div>
       </div>`).join('');
   }
 
   function badgeClass(event) {
+    if (event === 'returning_visitor') return 'returning';
     if (event.includes('page_view')) return 'view';
     if (event.includes('click')) return 'click';
     if (event.includes('scroll')) return 'scroll';
@@ -253,7 +274,7 @@
       const now = new Date();
       const todayStr = now.toISOString().slice(0, 10);
 
-      // Stats
+      // Stats base
       const pageViews = events.filter(e => e.event === 'page_view');
       const sessions = new Set(events.map(e => e.session_id)).size;
       const mobileCount = events.filter(e => e.device === 'mobile').length;
@@ -264,6 +285,14 @@
       document.getElementById('unique-sessions').textContent = sessions;
       document.getElementById('mobile-pct').innerHTML = `${mobilePct}<span>%</span>`;
       document.getElementById('today-visits').textContent = todayViews;
+
+      // Visitantes recurrentes
+      const returningEvents = events.filter(e => e.event === 'returning_visitor');
+      const returningSessions = new Set(returningEvents.map(e => e.session_id)).size;
+      const returnPct = sessions > 0 ? Math.round(returningSessions / sessions * 100) : 0;
+
+      document.getElementById('returning-count').textContent = returningSessions;
+      document.getElementById('return-pct').innerHTML = `${returnPct}<span>%</span>`;
 
       // Referrers
       const refCount = {};
@@ -332,7 +361,6 @@
     }
   }
 
-  // Auto-refresh every 30 seconds
   if (sessionStorage.getItem('dash_auth')) {
     loadData();
     setInterval(loadData, 30000);
