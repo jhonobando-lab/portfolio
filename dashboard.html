@@ -77,6 +77,16 @@
     .event-badge.scroll{background:rgba(255,255,255,0.04);color:var(--t3)}
     .event-badge.time{background:rgba(248,113,113,0.08);color:var(--red)}
     .event-badge.returning{background:rgba(74,222,128,0.12);color:var(--green)}
+    .funnel-step{display:grid;grid-template-columns:150px 1fr 96px;align-items:center;gap:12px}
+    .funnel-label{font-size:13px;color:var(--t1)}
+    .funnel-track{background:var(--bg-3);border-radius:4px;height:22px;overflow:hidden}
+    .funnel-fill{height:100%;border-radius:4px;background:var(--accent);transition:width .6s ease;min-width:2px}
+    .funnel-val{font-size:13px;color:var(--t1);text-align:right}
+    .funnel-val span{color:var(--t3);font-size:11px;margin-left:4px}
+    .funnel-drop{font-size:11px;color:var(--t3);padding:5px 0 5px 162px}
+    .funnel-drop.big{color:var(--red)}
+    .funnel-split{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+    @media(max-width:600px){.funnel-step{grid-template-columns:96px 1fr 72px;gap:8px}.funnel-label{font-size:12px}.funnel-drop{padding-left:104px}}
     .loading{text-align:center;padding:40px;color:var(--t3);font-size:13px}
     .refresh-btn{background:transparent;border:1px solid var(--line-md);color:var(--t2);border-radius:var(--radius);padding:6px 14px;font-size:12px;font-family:var(--font);cursor:pointer;transition:all .15s}
     .refresh-btn:hover{color:var(--t1)}
@@ -149,6 +159,21 @@
         <div class="stat-num green" id="return-pct">—<span>%</span></div>
         <div class="stat-label">tasa de retorno</div>
         <div class="stat-sub">del total de sesiones únicas</div>
+      </div>
+    </div>
+
+    <!-- EMBUDO DEL HOME -->
+    <div class="section">
+      <div class="section-title">Embudo del home</div>
+      <div class="chart-card">
+        <div class="chart-title">De visita a acción</div>
+        <div class="chart-sub">personas (sesiones únicas) en el home · últimos 60 días · el % es sobre el total de visitas</div>
+        <div id="funnel-chart"><div class="loading">Cargando...</div></div>
+        <div class="funnel-split">
+          <div class="chart-title">¿En qué hicieron clic?</div>
+          <div class="chart-sub">personas que hicieron clic, por destino</div>
+          <div id="funnel-breakdown"><div class="loading">Cargando...</div></div>
+        </div>
       </div>
     </div>
 
@@ -245,6 +270,25 @@
         <div class="bar-track"><div class="bar-fill" style="width:${Math.round(val/maxVal*100)}%"></div></div>
         <div class="bar-val">${display !== undefined ? display : val}</div>
       </div>`).join('');
+  }
+
+  function renderFunnel(container, steps) {
+    const base = steps[0][1];
+    if (!base) { container.innerHTML = '<div class="loading">Sin datos aún</div>'; return; }
+    container.innerHTML = steps.map(([label, n], i) => {
+      const pct = Math.round(n / base * 100);
+      let drop = '';
+      if (i > 0) {
+        const prev = steps[i-1][1];
+        const lost = prev ? Math.round((prev - n) / prev * 100) : 0;
+        drop = `<div class="funnel-drop${lost >= 50 ? ' big' : ''}">↓ se pierde el ${lost}% (${prev - n} personas)</div>`;
+      }
+      return `${drop}<div class="funnel-step">
+        <div class="funnel-label">${label}</div>
+        <div class="funnel-track"><div class="funnel-fill" style="width:${pct}%"></div></div>
+        <div class="funnel-val">${n}<span>${pct}%</span></div>
+      </div>`;
+    }).join('');
   }
 
   // Convierte segundos a formato legible
@@ -393,6 +437,35 @@
       renderTrend('trend-returning',
         new Set(evThisW.filter(e=>e.event==='returning_visitor').map(e=>e.session_id)).size,
         new Set(evLastW.filter(e=>e.event==='returning_visitor').map(e=>e.session_id)).size);
+
+      // Embudo del home (sesiones únicas)
+      const homeEv = events.filter(e => (e.page || '/') === '/');
+      const sessOf = pred => new Set(homeEv.filter(pred).map(e => e.session_id));
+      const fVisit = sessOf(e => e.event === 'page_view');
+      const inVisit = set => new Set([...set].filter(id => fVisit.has(id)));
+      const f50 = inVisit(sessOf(e => ['scroll_50','scroll_75','scroll_100'].includes(e.event)));
+      const f100 = inVisit(sessOf(e => e.event === 'scroll_100'));
+      const CLICK_GROUPS = {
+        'Ver un caso': ['click_project_obi','click_project_iris','click_project_visa'],
+        'Agendar llamada': ['click_booking'],
+        'Solicitar CV': ['click_cv_request'],
+        'LinkedIn': ['click_linkedin'],
+        'WhatsApp': ['click_whatsapp'],
+        'Email': ['click_email'],
+        'Behance / GitHub': ['click_behance','click_github']
+      };
+      const allConv = Object.values(CLICK_GROUPS).flat();
+      const fClick = inVisit(sessOf(e => allConv.includes(e.event)));
+      renderFunnel(document.getElementById('funnel-chart'), [
+        ['Visitaron el home', fVisit.size],
+        ['Bajaron al 50%', f50.size],
+        ['Llegaron al final', f100.size],
+        ['Hicieron clic', fClick.size]
+      ]);
+      const brk = Object.entries(CLICK_GROUPS)
+        .map(([label, evs]) => [label, inVisit(sessOf(e => evs.includes(e.event))).size])
+        .filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1]);
+      renderBar(document.getElementById('funnel-breakdown'), brk, brk[0]?.[1] || 1);
 
       // Referrers
       // Cuenta visitas (sesiones), usando el origen de la primera página de cada visita
