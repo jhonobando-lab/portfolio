@@ -171,9 +171,18 @@
 
   // Si este navegador es de Jhon (marcado al entrar al dashboard), no se registra nada
   const IS_OWNER = (() => { try { return !!localStorage.getItem('jhon_owner'); } catch(e) { return false; } })();
+  // Bots y navegadores automáticos (revisores de enlaces de redes sociales, buscadores, etc.)
+  const IS_BOT = (() => {
+    try {
+      if (navigator.webdriver) return true;
+      if (/bot|crawl|spider|slurp|headless|lighthouse|facebookexternalhit|preview/i.test(navigator.userAgent)) return true;
+      const sc = `${screen.width}x${screen.height}`;
+      return sc === '800x600' || sc === '2000x2000' || screen.width === 0;
+    } catch(e) { return false; }
+  })();
 
   async function track(event, extra={}) {
-    if (IS_OWNER) return;
+    if (IS_OWNER || IS_BOT) return;
     try {
       await fetch(`${SUPABASE_URL}/rest/v1/events`, {
         method:'POST',
