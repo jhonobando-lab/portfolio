@@ -138,7 +138,11 @@
   const REFERRER = document.referrer ? (() => { try { return new URL(document.referrer).hostname; } catch(e) { return document.referrer; } })() : 'direct';
   const PAGE = '/ilustraciones';
 
+  // Si este navegador es de Jhon (marcado al entrar al dashboard), no se registra nada
+  const IS_OWNER = (() => { try { return !!localStorage.getItem('jhon_owner'); } catch(e) { return false; } })();
+
   async function track(event, extra={}) {
+    if (IS_OWNER) return;
     try {
       await fetch(`${SUPABASE_URL}/rest/v1/events`, {
         method:'POST',

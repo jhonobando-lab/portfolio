@@ -932,7 +932,11 @@
   const REFERRER = document.referrer ? (() => { try { return new URL(document.referrer).hostname; } catch(e) { return document.referrer; } })() : 'direct';
   const PAGE = window.location.pathname || '/';
 
+  // Si este navegador es de Jhon (marcado al entrar al dashboard), no se registra nada
+  const IS_OWNER = (() => { try { return !!localStorage.getItem('jhon_owner'); } catch(e) { return false; } })();
+
   async function track(event, extra = {}) {
+    if (IS_OWNER) return;
     try {
       await fetch(`${SUPABASE_URL}/rest/v1/events`, {
         method: 'POST',
@@ -1014,7 +1018,7 @@
   const startTime = Date.now();
   let timeSent = false;
   function sendTimeOnPage() {
-    if (timeSent) return;
+    if (IS_OWNER || timeSent) return;
     timeSent = true;
     const seconds = Math.round((Date.now() - startTime) / 1000);
     if (seconds < 1) return;
