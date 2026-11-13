@@ -81,6 +81,19 @@
     .btn-accent:hover { opacity:.88; }
     .btn-ghost { background:transparent; color:var(--t2); border:1px solid var(--line-md); }
     .btn-ghost:hover { border-color:var(--line-hi); color:var(--t1); }
+    /* Contacto — dos caminos */
+    .paths { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .path-card { background:var(--bg-1); border:1px solid var(--line-md); border-radius:14px; padding:28px; display:flex; flex-direction:column; gap:14px; transition:border-color .15s; }
+    .path-card:hover { border-color:var(--line-hi); }
+    .path-card--main { border-color:var(--accent-border); }
+    .path-tag { font-size:11px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); }
+    .path-title { font-size:20px; font-weight:400; letter-spacing:-0.03em; line-height:1.25; color:var(--t1); }
+    .path-desc { font-size:13px; color:var(--t2); line-height:1.65; margin:0; }
+    .path-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:auto; padding-top:6px; }
+    .contact-foot { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-top:24px; font-size:13px; color:var(--t2); }
+    .contact-foot a { color:var(--t1); border-bottom:1px solid var(--line-hi); }
+    .contact-foot a:hover { border-color:var(--accent); }
+    @media (max-width:720px) { .paths { grid-template-columns:1fr; } .path-card { padding:22px; } }
     /* hero meta: bigger numbers, readable labels */
     .hero-meta { display:flex; align-items:center; gap:20px; margin-top:40px; padding-top:28px; border-top:1px solid var(--line-md); flex-wrap:wrap; }
     .hero-meta-item { display:flex; flex-direction:column; gap:4px; }
@@ -847,35 +860,48 @@
     <p class="eyebrow" data-lang="en" style="display:none">contact</p>
 
     <div style="margin-bottom:32px">
-      <h2 data-lang="es" style="margin-bottom:10px">¿Tienes un reto de diseño o producto?</h2>
-      <h2 data-lang="en" style="display:none;margin-bottom:10px">Got a design or product challenge?</h2>
-      <p data-lang="es" style="max-width:480px;margin-bottom:0">Hablemos — siempre estoy abierto a buenas conversaciones sobre equipos, productos y estrategia de diseño.</p>
-      <p data-lang="en" style="display:none;max-width:480px;margin-bottom:0">Let's talk — I'm always open to good conversations about teams, products and design strategy.</p>
+      <h2 data-lang="es" style="margin-bottom:10px">Trabajemos juntos</h2>
+      <h2 data-lang="en" style="display:none;margin-bottom:10px">Let's work together</h2>
+      <p data-lang="es" style="max-width:520px;margin-bottom:0">Elige el camino que mejor se ajusta a lo que buscas.</p>
+      <p data-lang="en" style="display:none;max-width:520px;margin-bottom:0">Pick the path that best fits what you're looking for.</p>
     </div>
-    <div class="contact-grid">
 
-      <a href="mailto:jhonobando@gmail.com" class="contact-link" title="Email">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-      </a>
+    <div class="paths">
 
-      <a href="https://wa.me/573106898054" target="_blank" rel="noopener" class="contact-link" title="WhatsApp">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
-      </a>
+      <div class="path-card path-card--main">
+        <span class="path-tag" data-lang="es">Mentoría · Capacitación · Consultoría</span>
+        <span class="path-tag" data-lang="en" style="display:none">Mentoring · Training · Consulting</span>
+        <h3 class="path-title" data-lang="es">¿Quieres llevar tu producto o tu equipo de diseño al siguiente nivel?</h3>
+        <h3 class="path-title" data-lang="en" style="display:none">Want to take your product or design team to the next level?</h3>
+        <p class="path-desc" data-lang="es">Liderazgo de equipos de diseño, estrategia de producto e IA aplicada al producto. Agenda 30 minutos y vemos cómo te puedo ayudar.</p>
+        <p class="path-desc" data-lang="en" style="display:none">Design team leadership, product strategy and AI applied to product. Book 30 minutes and let's see how I can help.</p>
+        <div class="path-actions">
+          <a href="https://calendar.app.google/Ah9FUJFuvgGMoAUU6" target="_blank" rel="noopener" class="btn btn-accent" data-lang="es">Agendar 30 min ↗</a>
+          <a href="https://calendar.app.google/Ah9FUJFuvgGMoAUU6" target="_blank" rel="noopener" class="btn btn-accent" data-lang="en" style="display:none">Book 30 min ↗</a>
+          <a href="https://wa.me/573106898054" target="_blank" rel="noopener" class="btn btn-ghost">WhatsApp ↗</a>
+        </div>
+      </div>
 
-      <a href="https://www.linkedin.com/in/jhonobandorodriguez" target="_blank" rel="noopener" class="contact-link" title="LinkedIn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-      </a>
-
-      <a href="https://be.net/kadiedgraphic" target="_blank" rel="noopener" class="contact-link" title="Behance">
-        <svg width="20" height="20" viewBox="0 0 50 50" fill="currentColor"><path d="M 9 4 C 6.239 4 4 6.239 4 9 L 4 41 C 4 43.761 6.239 46 9 46 L 41 46 C 43.761 46 46 43.761 46 41 L 46 9 C 46 6.239 43.761 4 41 4 L 9 4 z M 13 13 L 21.199219 13 C 25.699219 13 27.600781 15.400781 27.800781 18.300781 C 27.900781 20.100781 27.199219 21.700781 25.699219 22.800781 C 28.099219 23.800781 29.300781 25.7 29.300781 28.5 C 29.300781 32.1 27.099219 36 21.199219 36 L 13 36 L 13 13 z M 30.5 18 L 38 18 L 38 20 L 30.5 20 L 30.5 18 z M 17 17 L 17 22 L 20.699219 22 C 22.399219 22 23.699219 21.100781 23.699219 19.300781 C 23.699219 17.500781 22.5 17 20.800781 17 L 17 17 z M 31.599609 22 C 35.999609 22 38 24.8 38 28.5 C 38 32.3 35.700391 35 31.400391 35 C 27.600391 35 25 32.399609 25 28.599609 C 25 24.699609 27.199609 22 31.599609 22 z M 17 25 L 17 32 L 21.099609 32 C 22.999609 32 24.800781 31.200781 24.800781 28.800781 C 24.800781 26.300781 23.099609 25 21.099609 25 L 17 25 z M 31.5 25.599609 C 29.5 25.599609 28.699219 27.400391 28.699219 28.900391 C 28.699219 30.500391 29.600391 32.300781 31.400391 32.300781 C 33.400391 32.300781 34.199219 30.500391 34.199219 28.900391 C 34.299219 27.300391 33.5 25.599609 31.5 25.599609 z"/></svg>
-      </a>
-
-      <a href="https://github.com/jhonobando-lab" target="_blank" rel="noopener" class="contact-link" title="GitHub">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-      </a>
+      <div class="path-card">
+        <span class="path-tag" data-lang="es">Reclutadores y empresas</span>
+        <span class="path-tag" data-lang="en" style="display:none">Recruiters &amp; companies</span>
+        <h3 class="path-title" data-lang="es">¿Buscas un líder de Producto, Diseño e IA?</h3>
+        <h3 class="path-title" data-lang="en" style="display:none">Looking for a Product, Design &amp; AI leader?</h3>
+        <p class="path-desc" data-lang="es">He liderado diseño y producto en fintech, banca y telemática. Conversemos sobre roles de liderazgo.</p>
+        <p class="path-desc" data-lang="en" style="display:none">I've led design and product in fintech, banking and telematics. Let's talk about leadership roles.</p>
+        <div class="path-actions">
+          <a href="https://www.linkedin.com/in/jhonobandorodriguez" target="_blank" rel="noopener" class="btn btn-accent">LinkedIn ↗</a>
+          <a href="mailto:jhonobando@gmail.com?subject=Solicitud%20de%20CV%20%E2%80%94%20jhonobi.com&body=Hola%20Jhon%2C%0A%0AMe%20gustar%C3%ADa%20recibir%20tu%20CV.%0A%0ANombre%3A%0AEmpresa%3A%0ACargo%20o%20rol%20que%20buscamos%3A%0A" class="btn btn-ghost" data-cv="1" data-lang="es">Solicitar CV</a>
+          <a href="mailto:jhonobando@gmail.com?subject=CV%20request%20%E2%80%94%20jhonobi.com&body=Hi%20Jhon%2C%0A%0AI%27d%20like%20to%20receive%20your%20CV.%0A%0AName%3A%0ACompany%3A%0ARole%20we%27re%20hiring%20for%3A%0A" class="btn btn-ghost" data-cv="1" data-lang="en" style="display:none">Request CV</a>
+        </div>
+      </div>
 
     </div>
-    <div style="margin-top:20px"><button class="share-btn" onclick="sharePage()" data-lang="es">
+
+    <div class="contact-foot">
+      <span data-lang="es">¿Otra cosa? Escríbeme a <a href="mailto:jhonobando@gmail.com">jhonobando@gmail.com</a></span>
+      <span data-lang="en" style="display:none">Something else? Email me at <a href="mailto:jhonobando@gmail.com">jhonobando@gmail.com</a></span>
+      <div><button class="share-btn" onclick="sharePage()" data-lang="es">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
         compartir
       </button>
@@ -883,6 +909,7 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
         share
       </button></div>
+    </div>
   </div>
 </section>
 
@@ -1003,7 +1030,9 @@
     const el = e.target.closest('a, button');
     if (!el) return;
     const href = el.href || '';
-    if (href.includes('/visa') || el.closest('[onclick*="visa"]')) track('click_project_visa');
+    if (href.includes('calendar.app.google')) track('click_booking');
+    else if (el.dataset.cv) track('click_cv_request');
+    else if (href.includes('/visa') || el.closest('[onclick*="visa"]')) track('click_project_visa');
     else if (href.includes('/iris') || el.closest('[onclick*="iris"]')) track('click_project_iris');
     else if (href.includes('/obi') || el.closest('[onclick*="obi"]')) track('click_project_obi');
     else if (href.includes('wa.me')) track('click_whatsapp');

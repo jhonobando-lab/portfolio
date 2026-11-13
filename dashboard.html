@@ -407,7 +407,7 @@
       renderBar(document.getElementById('pages-chart'), pgData, pgData[0]?.[1]||1);
 
       // Clicks
-      const clickLabels={click_project_visa:'Caso Visa',click_project_iris:'Caso IRIS',click_whatsapp:'WhatsApp',click_linkedin:'LinkedIn',click_behance:'Behance',click_email:'Email',click_github:'GitHub',click_share:'Compartir'};
+      const clickLabels={click_project_visa:'Caso Visa',click_project_iris:'Caso IRIS',click_whatsapp:'WhatsApp',click_linkedin:'LinkedIn',click_behance:'Behance',click_email:'Email',click_github:'GitHub',click_share:'Compartir',click_booking:'Agendar llamada',click_cv_request:'Solicitar CV',click_project_obi:'Caso Obi'};
       const clkCount={};
       events.filter(e=>e.event?.startsWith('click')).forEach(e=>{const l=clickLabels[e.event]||e.event;clkCount[l]=(clkCount[l]||0)+1;});
       const clkData=Object.entries(clkCount).sort((a,b)=>b[1]-a[1]);
