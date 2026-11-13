@@ -28,7 +28,7 @@
     .login-btn{width:100%;background:var(--accent);color:var(--accent-fg);border:none;border-radius:var(--radius);padding:11px;font-size:13px;font-weight:500;font-family:var(--font);cursor:pointer;transition:opacity .15s}
     .login-btn:hover{opacity:.88}
     .login-error{font-size:12px;color:var(--red);margin-top:8px;display:none}
-    #dashboard{display:none;padding:0 24px 48px}
+    #dashboard{display:block;padding:0 24px 48px}
     nav{position:sticky;top:0;z-index:100;background:rgba(9,9,9,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--line-md);padding:0 24px;margin:0 -24px}
     .nav-inner{max-width:960px;margin:0 auto;height:52px;display:flex;justify-content:space-between;align-items:center}
     .nav-logo{font-size:14px;font-weight:500}
@@ -98,24 +98,13 @@
 </head>
 <body>
 
-<div id="login-screen">
-  <div class="login-box">
-    <div class="login-logo">jhonobi.com</div>
-    <div class="login-title">Dashboard</div>
-    <div class="login-sub">Analytics privado del portfolio</div>
-    <input class="login-input" type="password" id="pwd-input" placeholder="contraseña" onkeydown="if(event.key==='Enter')doLogin()"/>
-    <button class="login-btn" onclick="doLogin()">Entrar</button>
-    <div class="login-error" id="login-error">Contraseña incorrecta</div>
-  </div>
-</div>
-
 <div id="dashboard">
   <nav>
     <div class="nav-inner">
       <div class="nav-logo"><span class="live-dot"></span>Dashboard · jhonobi.com</div>
       <div class="nav-right">
         <a href="/">← volver al sitio</a>
-        <button class="logout-btn" onclick="logout()">salir</button>
+        <a class="logout-btn" href="/dashboard/logout">salir</a>
       </div>
     </div>
   </nav>
@@ -218,28 +207,10 @@
 <script>
   const SUPABASE_URL = 'https://gbvhvqklyzzzbfyeejzk.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_9qgWi_bnmgHb3gZ6lrw0Lw_WbZmKHQM';
-  const PASSWORD = 'jhonobi2026';
 
-  function doLogin() {
-    const val = document.getElementById('pwd-input').value;
-    if (val === PASSWORD) {
-      sessionStorage.setItem('dash_auth', '1');
-      try { localStorage.setItem('jhon_owner', '1'); } catch(e) {}
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
-      loadData();
-    } else {
-      document.getElementById('login-error').style.display = 'block';
-    }
-  }
-
-  function logout() { sessionStorage.removeItem('dash_auth'); location.reload(); }
-
-  if (sessionStorage.getItem('dash_auth')) {
-    try { localStorage.setItem('jhon_owner', '1'); } catch(e) {}
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-  }
+  // El acceso lo controla el servidor (server.js). Si ves esta página, ya entraste.
+  // Este navegador queda marcado como de Jhon para no contar sus visitas.
+  try { localStorage.setItem('jhon_owner', '1'); } catch(e) {}
 
   async function fetchEvents() {
     const since = new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString();
@@ -381,7 +352,6 @@
   }
 
   async function loadData() {
-    if (!sessionStorage.getItem('dash_auth')) return;
     try {
       const events = await fetchEvents();
       if (!Array.isArray(events)) return;
@@ -477,10 +447,8 @@
     } catch(err) { console.error('Dashboard error:', err); }
   }
 
-  if (sessionStorage.getItem('dash_auth')) {
-    loadData();
-    setInterval(loadData, 30000);
-  }
+  loadData();
+  setInterval(loadData, 30000);
 </script>
 </body>
 </html>
