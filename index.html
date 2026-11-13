@@ -167,6 +167,11 @@
     .proj-tags { display:flex; gap:6px; flex-wrap:wrap; }
     /* tags: t2 text, visible bg */
     .proj-tag { font-size:11px; color:var(--t2); background:var(--bg-3); border:1px solid var(--line-md); border-radius:4px; padding:2px 8px; }
+    .proj-carousel .proj-tags { margin-bottom:16px; }
+    .proj-foot { margin-top:auto; padding-top:14px; border-top:1px solid var(--line); }
+    .proj-card--accent .proj-foot { border-top-color:rgba(232,255,110,.2); }
+    .proj-cta { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:500; background:var(--accent); color:var(--accent-fg); padding:8px 14px; border-radius:var(--radius-sm); transition:opacity .15s; }
+    .proj-cta:hover { opacity:.88; }
 
     /* SKILLS */
     .skills-cols { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
@@ -500,7 +505,7 @@
 
         <!-- OBI — acento amarillo, primero -->
         <div class="proj-card proj-card--accent" onclick="window.location.href='/obi'" style="cursor:pointer;min-width:280px;max-width:300px;flex-shrink:0;display:flex;flex-direction:column">
-          <div style="padding:0">
+          <div style="padding:0;display:flex;flex-direction:column;flex:1">
             <div class="proj-top">
               <div class="proj-glyph proj-glyph--accent">🤖</div>
               <span class="proj-sector proj-sector--accent">AI · Side Project</span>
@@ -509,10 +514,9 @@
             <div class="proj-desc" data-lang="es">Asistente estratégico propio con Claude, n8n, Supabase y Telegram. Tareas, correos, 1:1s y automatización — todo desde conversación.</div>
             <div class="proj-desc" data-lang="en" style="display:none">Personal strategic assistant built with Claude, n8n, Supabase and Telegram. Tasks, emails, 1:1s and automation — all through conversation.</div>
             <div class="proj-tags"><span class="proj-tag">Claude API</span><span class="proj-tag">n8n</span><span class="proj-tag">Supabase</span><span class="proj-tag">AI Agents</span></div>
-            <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(232,255,110,.2);display:flex;justify-content:space-between;align-items:center">
-              <span style="font-size:11px;color:#e8ff6e;opacity:.7" data-lang="es">caso de estudio completo</span>
-              <span style="font-size:11px;color:#e8ff6e;opacity:.7" data-lang="en" style="display:none">full case study</span>
-              <span style="font-size:12px;color:#e8ff6e">→</span>
+            <div class="proj-foot">
+              <a href="/obi" class="proj-cta" data-lang="es">Ver caso de estudio →</a>
+              <a href="/obi" class="proj-cta" data-lang="en" style="display:none">View case study →</a>
             </div>
           </div>
         </div>
@@ -545,11 +549,10 @@
           <div class="proj-desc" data-lang="es">Construí el equipo, el onboarding 100% digital, IrisPay y IrisCard en una fintech regulada por la Superintendencia Financiera.</div>
           <div class="proj-desc" data-lang="en" style="display:none">Built the team, 100% digital onboarding, IrisPay and IrisCard at a fintech regulated by Colombia's Financial Superintendency.</div>
           <div class="proj-tags"><span class="proj-tag">Team Building</span><span class="proj-tag">Product Design</span><span class="proj-tag">Fintech</span></div>
-          <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:11px;color:var(--accent)" data-lang="es">caso de estudio completo</span>
-            <span style="font-size:11px;color:var(--accent)" data-lang="en" style="display:none">full case study</span>
-            <span style="font-size:12px;color:var(--accent)">→</span>
-          </div>
+          <div class="proj-foot">
+              <a href="/iris" class="proj-cta" data-lang="es">Ver caso de estudio →</a>
+              <a href="/iris" class="proj-cta" data-lang="en" style="display:none">View case study →</a>
+            </div>
         </div>
 
         <!-- ADL -->
@@ -580,11 +583,10 @@
           <div class="proj-desc" data-lang="es">Ecosistema de recompensas multicanal para Visa Latinoamérica. Experiencia integral que incrementó la fidelización regional.</div>
           <div class="proj-desc" data-lang="en" style="display:none">Multi-channel rewards ecosystem for Visa Latin America. End-to-end experience that increased regional customer loyalty.</div>
           <div class="proj-tags"><span class="proj-tag">UX Strategy</span><span class="proj-tag">Multi-channel</span><span class="proj-tag">Interaction</span></div>
-          <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:11px;color:var(--accent)" data-lang="es">caso de estudio completo</span>
-            <span style="font-size:11px;color:var(--accent)" data-lang="en" style="display:none">full case study</span>
-            <span style="font-size:12px;color:var(--accent)">→</span>
-          </div>
+          <div class="proj-foot">
+              <a href="/visa" class="proj-cta" data-lang="es">Ver caso de estudio →</a>
+              <a href="/visa" class="proj-cta" data-lang="en" style="display:none">View case study →</a>
+            </div>
         </div>
 
       </div>
@@ -1027,9 +1029,9 @@
 
   // 3. Click tracking
   document.addEventListener('click', e => {
-    const el = e.target.closest('a, button');
+    const el = e.target.closest('a, button, [onclick]');
     if (!el) return;
-    const href = el.href || '';
+    const href = el.href || el.getAttribute('onclick') || '';
     if (href.includes('calendar.app.google')) track('click_booking');
     else if (el.dataset.cv) track('click_cv_request');
     else if (href.includes('/visa') || el.closest('[onclick*="visa"]')) track('click_project_visa');
