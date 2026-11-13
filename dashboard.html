@@ -395,9 +395,13 @@
         new Set(evLastW.filter(e=>e.event==='returning_visitor').map(e=>e.session_id)).size);
 
       // Referrers
+      // Cuenta visitas (sesiones), usando el origen de la primera página de cada visita
+      const refLabels={direct:'Directo',linkedin:'LinkedIn',whatsapp:'WhatsApp',facebook:'Facebook',instagram:'Instagram',correo:'Correo',cv:'CV',google:'Google',buscador:'Otros buscadores',x:'X / Twitter','jhonobi.com':'Interno (sin origen)'};
+      const firstView={};
+      pageViews.forEach(e=>{const f=firstView[e.session_id];if(!f||e.created_at<f.created_at)firstView[e.session_id]=e;});
       const refCount={};
-      pageViews.forEach(e=>{const r=e.referrer||'direct';refCount[r]=(refCount[r]||0)+1;});
-      const refData=Object.entries(refCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
+      Object.values(firstView).forEach(e=>{const r=e.referrer||'direct';const l=refLabels[r]||r;refCount[l]=(refCount[l]||0)+1;});
+      const refData=Object.entries(refCount).sort((a,b)=>b[1]-a[1]).slice(0,8);
       renderBar(document.getElementById('referrer-chart'), refData, refData[0]?.[1]||1);
 
       // Pages

@@ -135,7 +135,38 @@
   const SESSION_ID = sessionStorage.getItem('sid') || (() => { const id = Math.random().toString(36).slice(2)+Date.now().toString(36); sessionStorage.setItem('sid',id); return id; })();
   const DEVICE = window.innerWidth<600?'mobile':window.innerWidth<1024?'tablet':'desktop';
   const SCREEN = `${window.screen.width}x${window.screen.height}`;
-  const REFERRER = document.referrer ? (() => { try { return new URL(document.referrer).hostname; } catch(e) { return document.referrer; } })() : 'direct';
+  // Origen de la visita: ?src=canal en el enlace > sitio que la envió > direct.
+  // Se guarda en la sesión para que todas las páginas de la visita conserven el mismo origen.
+  const REFERRER = (() => {
+    try {
+      const params = new URLSearchParams(location.search);
+      const src = (params.get('src') || params.get('utm_source') || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 30);
+      if (src) {
+        sessionStorage.setItem('visit_src', src);
+        params.delete('src'); params.delete('utm_source');
+        const q = params.toString();
+        history.replaceState(null, '', location.pathname + (q ? '?' + q : '') + location.hash);
+        return src;
+      }
+      const saved = sessionStorage.getItem('visit_src');
+      if (saved) return saved;
+      let origin = 'direct';
+      if (document.referrer) {
+        const host = new URL(document.referrer).hostname.replace(/^www\./, '');
+        if (host === 'jhonobi.com' || host === location.hostname.replace(/^www\./, '')) return host;
+        if (/linkedin\.com$|lnkd\.in$/.test(host)) origin = 'linkedin';
+        else if (/facebook\.com$|fb\.me$/.test(host)) origin = 'facebook';
+        else if (/instagram\.com$/.test(host)) origin = 'instagram';
+        else if (/whatsapp\.com$|wa\.me$/.test(host)) origin = 'whatsapp';
+        else if (/(^|\.)google\./.test(host)) origin = 'google';
+        else if (/(^|\.)bing\.com$|duckduckgo\.com$/.test(host)) origin = 'buscador';
+        else if (host === 't.co' || /(^|\.)x\.com$|twitter\.com$/.test(host)) origin = 'x';
+        else origin = host;
+      }
+      sessionStorage.setItem('visit_src', origin);
+      return origin;
+    } catch(e) { return 'direct'; }
+  })();
   const PAGE = '/ilustraciones';
 
   // Si este navegador es de Jhon (marcado al entrar al dashboard), no se registra nada
