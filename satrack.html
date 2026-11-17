@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Satrack — Product Design & Experience Leader · Jhon Obando</title>
+  <!-- Vista previa al compartir (Open Graph / redes sociales) -->
+  <meta name="description" content="Cómo lidero Product Design y experiencia en Satrack: equipo, discovery, estrategia de producto e IA en todo el portafolio de telemática de flotas."/>
+  <link rel="canonical" href="https://jhonobi.com/satrack"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Jhon Obando"/>
+  <meta property="og:locale" content="es_CO"/>
+  <meta property="og:url" content="https://jhonobi.com/satrack"/>
+  <meta property="og:title" content="Satrack — Product Design & Experience Leader · Jhon Obando"/>
+  <meta property="og:description" content="De liderar el diseño a conectar producto, clientes y negocio en una compañía de telemática de flotas."/>
+  <meta property="og:image" content="https://jhonobi.com/og-satrack.jpg"/>
+  <meta property="og:image:type" content="image/jpeg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="Jhon Obando en Satrack — Product Design & Experience Leader"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Satrack — Product Design & Experience Leader · Jhon Obando"/>
+  <meta name="twitter:description" content="De liderar el diseño a conectar producto, clientes y negocio en una compañía de telemática de flotas."/>
+  <meta name="twitter:image" content="https://jhonobi.com/og-satrack.jpg"/>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNiIgZmlsbD0iIzBlMGUwZSIvPjxwb2x5Z29uIHBvaW50cz0iMTYsNCAyNiw5LjUgMjYsMjIuNSAxNiwyOCA2LDIyLjUgNiw5LjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2U4ZmY2ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMi41IiBmaWxsPSIjZThmZjZlIi8+PC9zdmc+"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#090909;--bg-1:#111;--bg-2:#161616;--bg-3:#202020;
+      --line:rgba(255,255,255,0.08);--line-md:rgba(255,255,255,0.14);--line-hi:rgba(255,255,255,0.26);
+      --t1:#efefef;--t2:#a0a0a0;--t3:#6a6a6a;
+      --accent:#e8ff6e;--accent-fg:#1a1e00;
+      --accent-dim:rgba(232,255,110,0.08);--accent-border:rgba(232,255,110,0.22);
+      --warn:#ffb86b;--warn-dim:rgba(255,184,107,0.08);--warn-border:rgba(255,184,107,0.25);
+      --radius:10px;--radius-sm:6px;--pill:999px;--max:720px;--wide:960px;--font:'Inter',-apple-system,sans-serif;
+      --ease:cubic-bezier(.2,.7,.2,1);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font);background:var(--bg);color:var(--t1);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:100;background:rgba(9,9,9,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line-md)}
+    .nav-inner{max-width:var(--wide);margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;height:54px}
+    .nav-logo{font-size:14px;font-weight:500;letter-spacing:-0.01em;color:var(--t1)}
+    .nav-right{display:flex;align-items:center;gap:16px}
+    .lang-toggle{display:flex;align-items:center;background:var(--bg-2);border:1px solid var(--line-md);border-radius:var(--pill);padding:3px;gap:2px}
+    .lang-btn{font-size:11px;font-weight:600;letter-spacing:.05em;padding:4px 11px;border-radius:var(--pill);border:none;background:transparent;color:var(--t2);cursor:pointer;font-family:var(--font);transition:all .15s}
+    .lang-btn.active{background:var(--accent);color:var(--accent-fg)}
+    .lang-btn:not(.active):hover{color:var(--t1)}
+    .nav-back{font-size:13px;color:var(--t2);transition:color .15s;cursor:pointer;background:none;border:none;font-family:var(--font);padding:0}
+    .nav-back:hover{color:var(--t1)}
+
+    /* LAYOUT */
+    .wrap{max-width:var(--wide);margin:0 auto;padding:0 24px}
+    .narrow{max-width:var(--max)}
+    section{padding:64px 0}
+    section+section{border-top:1px solid var(--line)}
+    .eyebrow{display:flex;gap:10px;font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:18px}
+    .eyebrow .n{color:var(--accent)}
+    h2{font-size:clamp(20px,2.6vw,26px);font-weight:400;letter-spacing:-0.03em;line-height:1.25;color:var(--t1);margin-bottom:14px;max-width:640px}
+    h3{font-size:15px;font-weight:500;letter-spacing:-0.01em;color:var(--t1);margin-bottom:6px}
+    p{font-size:14px;color:var(--t2);line-height:1.8;margin-bottom:14px;max-width:640px}
+    p:last-child{margin-bottom:0}
+    p strong{color:var(--t1);font-weight:500}
+    .lede{font-size:16px;line-height:1.75}
+
+    /* HERO */
+    #hero{padding:64px 0 56px}
+    .hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--accent-dim);border:1px solid var(--accent-border);border-radius:var(--pill);padding:5px 14px;font-size:12px;color:var(--accent);margin-bottom:22px}
+    .hero-dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+    h1{font-size:clamp(30px,5vw,50px);font-weight:400;letter-spacing:-0.045em;line-height:1.06;color:var(--t1);margin-bottom:20px;max-width:780px}
+    h1 strong{font-weight:400;color:var(--accent)}
+    .hero-sub{font-size:16px;color:var(--t2);line-height:1.75;max-width:600px;margin-bottom:36px}
+    .hero-meta{display:grid;grid-template-columns:repeat(4,auto);gap:18px 36px;justify-content:start;padding-top:24px;border-top:1px solid var(--line)}
+    .meta-item{display:flex;flex-direction:column;gap:3px}
+    .meta-label{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:.07em}
+    .meta-val{font-size:13px;color:var(--t1);font-weight:500;line-height:1.45}
+
+    /* CALLOUT */
+    .callout{background:var(--bg-1);border:1px solid var(--line-md);border-left:3px solid var(--accent);border-radius:var(--radius);padding:20px 24px;margin-top:28px;max-width:640px}
+    .callout p{margin:0}
+
+    /* DIMENSIONS */
+    .dims{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:28px}
+    .dim{background:var(--bg-1);border:1px solid var(--line-md);border-radius:14px;padding:22px}
+    .dim .k{font-size:10.5px;letter-spacing:.08em;color:var(--accent);font-weight:500;margin-bottom:10px}
+    .dim p{font-size:13px;line-height:1.7;margin:0}
+
+    /* PRODUCTS */
+    .products{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:28px}
+    .prod{background:var(--bg-1);padding:18px 16px 20px;display:flex;flex-direction:column;gap:6px;transition:background .2s}
+    .prod:hover{background:var(--bg-2)}
+    .prod .t{font-size:13px;font-weight:500;color:var(--t1);line-height:1.3}
+    .prod .d{font-size:12px;color:var(--t2);line-height:1.55}
+    .prod--hl{background:linear-gradient(180deg,var(--accent-dim),var(--bg-1))}
+    .prod--hl .t{color:var(--accent)}
+    .note{font-size:12px;color:var(--t3);margin-top:12px;line-height:1.6}
+
+    /* CASES */
+    .case{border:1px solid var(--line-md);border-radius:14px;background:var(--bg-1);padding:28px;margin-top:20px}
+    .case--main{border-color:var(--accent-border)}
+    .case-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+    .case-head h3{font-size:19px;font-weight:400;letter-spacing:-0.02em;margin:0}
+    .chip{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;border-radius:var(--pill);padding:3px 10px;border:1px solid var(--line-md);color:var(--t2);white-space:nowrap}
+    .chip::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+    .chip--dev{color:var(--warn);background:var(--warn-dim);border-color:var(--warn-border)}
+    .chip--live{color:var(--accent);background:var(--accent-dim);border-color:var(--accent-border)}
+    .chip--exp{color:#8ec5ff;background:rgba(142,197,255,0.08);border-color:rgba(142,197,255,0.25)}
+    .case-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:8px}
+    .case-block .k{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:6px}
+    .case-block p{font-size:13.5px;line-height:1.75;margin:0}
+    .stat{display:flex;align-items:baseline;gap:14px;margin:4px 0 16px}
+    .stat .v{font-size:clamp(44px,6vw,64px);font-weight:300;letter-spacing:-0.05em;line-height:.95;color:var(--accent)}
+    .stat .l{font-size:12.5px;color:var(--t2);line-height:1.5;max-width:220px}
+    .flows{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px}
+    .flow{border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;background:var(--bg)}
+    .flow .k{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:12px}
+    .flow--after{border-color:var(--accent-border)}
+    .flow--after .k{color:var(--accent)}
+    .steps{list-style:none;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+    .steps li{font-size:12px;color:var(--t2);background:var(--bg-2);border:1px solid var(--line);border-radius:var(--pill);padding:4px 10px}
+    .flow--after .steps li{color:var(--t1);border-color:var(--accent-border)}
+    .steps .ar{background:none;border:none;padding:0;color:var(--t3)}
+    .cases-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .cases-2 .case{margin-top:20px}
+    .case p{font-size:13.5px;line-height:1.75}
+
+    /* CONTRIBUTIONS */
+    .contrib{list-style:none;counter-reset:c;margin-top:24px;border-top:1px solid var(--line)}
+    .contrib li{counter-increment:c;display:grid;grid-template-columns:44px 1fr;gap:14px;padding:18px 0;border-bottom:1px solid var(--line)}
+    .contrib li::before{content:counter(c,decimal-leading-zero);font-size:12px;color:var(--accent);padding-top:2px}
+    .contrib h3{font-size:15px;font-weight:400;margin-bottom:4px}
+    .contrib p{font-size:13.5px;margin:0}
+
+    /* IMPACT */
+    .impact{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+    .imp{background:var(--bg-1);border:1px solid var(--line-md);border-radius:var(--radius);padding:20px 16px}
+    .imp .v{font-size:30px;font-weight:300;color:var(--accent);letter-spacing:-0.04em;line-height:1;margin-bottom:8px}
+    .imp .l{font-size:12px;color:var(--t2);line-height:1.5}
+
+    /* PRINCIPLES */
+    .princ{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+    .pr{border-top:1px solid var(--accent-border);padding-top:16px}
+    .pr p{font-size:13px;margin:0}
+
+    /* CTA */
+    .cta{border:1px solid var(--accent-border);border-radius:14px;padding:32px;background:linear-gradient(135deg,var(--accent-dim),transparent 60%)}
+    .cta h2{margin-bottom:10px}
+    .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+    .btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;padding:10px 18px;border-radius:var(--radius);border:1px solid var(--line-md);color:var(--t1);transition:all .15s;font-family:var(--font);background:transparent;cursor:pointer}
+    .btn:hover{border-color:var(--line-hi)}
+    .btn--accent{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+    .btn--accent:hover{opacity:.9}
+    .next{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
+    .next a{display:block;border:1px solid var(--line-md);border-radius:14px;padding:20px;background:var(--bg-1);transition:border-color .2s,transform .3s var(--ease)}
+    .next a:hover{border-color:var(--accent-border);transform:translateY(-2px)}
+    .next .k{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:8px}
+    .next .t{font-size:16px;color:var(--t1);margin-bottom:4px}
+    .next .go{font-size:12px;color:var(--accent);margin-top:10px}
+
+    /* FOOTER */
+    footer{border-top:1px solid var(--line-md);padding:24px}
+    .footer-inner{max-width:var(--wide);margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+    .footer-l{font-size:12px;color:var(--t2)}
+    .footer-r{display:flex;gap:20px}
+    .footer-r a{font-size:12px;color:var(--t2);transition:color .15s}
+    .footer-r a:hover{color:var(--t1)}
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(12px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+    .reveal.in{opacity:1;transform:none}
+    @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}}
+
+    @media(max-width:900px){
+      .products{grid-template-columns:repeat(2,1fr)}
+      .impact{grid-template-columns:repeat(2,1fr)}
+      .cases-2,.case-grid,.flows{grid-template-columns:1fr}
+      .hero-meta{grid-template-columns:repeat(2,auto)}
+    }
+    @media(max-width:600px){
+      section{padding:48px 0}
+      #hero{padding-top:44px}
+      .dims,.princ,.next{grid-template-columns:1fr}
+      .products{grid-template-columns:1fr}
+      .case,.cta{padding:22px 18px}
+      .hero-meta{grid-template-columns:1fr 1fr;gap:16px}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <button class="nav-back" onclick="window.location.href='/'">← <span data-lang="es">inicio</span><span data-lang="en" style="display:none">home</span></button>
+    <span class="nav-logo">Jhon Obando</span>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('es')">ES</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═════════ HERO ═════════ -->
+<section id="hero">
+  <div class="wrap">
+    <div class="hero-tag"><span class="hero-dot"></span><span data-lang="es">Satrack · Telemática de flotas · 2023–presente</span><span data-lang="en" style="display:none">Satrack · Fleet telematics · 2023–present</span></div>
+    <h1 data-lang="es">De liderar el diseño a <strong>conectar producto, clientes y negocio.</strong></h1>
+    <h1 data-lang="en" style="display:none">From leading design to <strong>connecting product, customers and business.</strong></h1>
+    <p class="hero-sub" data-lang="es">En Satrack ayudo a convertir las necesidades de los clientes y las prioridades del negocio en oportunidades, decisiones y experiencias de producto que se pueden ejecutar.</p>
+    <p class="hero-sub" data-lang="en" style="display:none">At Satrack, I help turn customer needs and business priorities into opportunities, decisions and product experiences teams can actually ship.</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label" data-lang="es">rol</span><span class="meta-label" data-lang="en" style="display:none">role</span><span class="meta-val">Product Design &amp; Experience Leader</span></div>
+      <div class="meta-item"><span class="meta-label" data-lang="es">empresa</span><span class="meta-label" data-lang="en" style="display:none">company</span><span class="meta-val" data-lang="es">Satrack · B2B y B2C</span><span class="meta-val" data-lang="en" style="display:none">Satrack · B2B &amp; B2C</span></div>
+      <div class="meta-item"><span class="meta-label" data-lang="es">desde</span><span class="meta-label" data-lang="en" style="display:none">since</span><span class="meta-val" data-lang="es">Octubre 2023</span><span class="meta-val" data-lang="en" style="display:none">October 2023</span></div>
+      <div class="meta-item"><span class="meta-label" data-lang="es">equipo</span><span class="meta-label" data-lang="en" style="display:none">team</span><span class="meta-val" data-lang="es">5 Product Designers senior<br>+ 1 practicante</span><span class="meta-val" data-lang="en" style="display:none">5 senior Product Designers<br>+ 1 intern</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 01 · ROL ═════════ -->
+<section id="rol">
+  <div class="wrap">
+    <p class="eyebrow"><span class="n">01</span><span data-lang="es">Mi rol</span><span data-lang="en" style="display:none">My role</span></p>
+    <h2 data-lang="es">Llegué a liderar UX/UI. Hoy mi alcance es todo el portafolio.</h2>
+    <h2 data-lang="en" style="display:none">I joined to lead UX/UI. Today my scope is the whole portfolio.</h2>
+    <p class="lede" data-lang="es">Lidero la consolidación de Product Design en Satrack, la compañía líder en telemática de flotas en Colombia. Dirijo el equipo de diseño, defino la estrategia de investigación, facilito discovery con producto e ingeniería y participo desde la identificación de oportunidades hasta el diseño, la validación y el seguimiento de las soluciones.</p>
+    <p class="lede" data-lang="en" style="display:none">I lead the consolidation of Product Design at Satrack, Colombia's leading fleet telematics company. I run the design team, set the research strategy, facilitate discovery with product and engineering, and take part from spotting opportunities to designing, validating and following up on solutions.</p>
+    <p data-lang="es">Mi trabajo no se limita a que las interfaces funcionen. Combino liderazgo de personas, facilitación multidisciplinaria, pensamiento de producto y participación directa en las decisiones de UX/UI.</p>
+    <p data-lang="en" style="display:none">My job isn't just making interfaces usable. I combine people leadership, cross-functional facilitation, product thinking and hands-on involvement in UX/UI decisions.</p>
+    <div class="callout reveal">
+      <p data-lang="es"><strong>Confianza más allá del diseño.</strong> He asumido la coordinación de la Gerencia de Producto durante las ausencias de la CPO, articulando equipos e iniciativas de todo el portafolio.</p>
+      <p data-lang="en" style="display:none"><strong>Trust beyond design.</strong> I've stepped in to coordinate the Product Management department during the CPO's absences, bringing teams and initiatives together across the portfolio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 02 · DIMENSIONES ═════════ -->
+<section id="dimensiones">
+  <div class="wrap">
+    <p class="eyebrow"><span class="n">02</span><span data-lang="es">Cómo lidero</span><span data-lang="en" style="display:none">How I lead</span></p>
+    <h2 data-lang="es">Cuatro dimensiones de un mismo rol.</h2>
+    <h2 data-lang="en" style="display:none">Four dimensions of one role.</h2>
+    <div class="dims">
+      <div class="dim reveal">
+        <div class="k" data-lang="es">PERSONAS Y CAPACIDADES</div><div class="k" data-lang="en" style="display:none">PEOPLE &amp; CAPABILITIES</div>
+        <h3 data-lang="es">Construir el equipo</h3><h3 data-lang="en" style="display:none">Building the team</h3>
+        <p data-lang="es">Construí y consolidé el equipo de Product Design: procesos de trabajo, mentoría, objetivos, seguimiento del desempeño y desarrollo de competencias. Mi apuesta: diseñadores que participan en discovery y entienden el negocio, no solo que ejecutan pantallas.</p>
+        <p data-lang="en" style="display:none">I built and consolidated the Product Design team: ways of working, mentoring, goals, performance follow-up and skills development. My bet: designers who take part in discovery and understand the business, not just people who produce screens.</p>
+      </div>
+      <div class="dim reveal">
+        <div class="k" data-lang="es">DISCOVERY Y ESTRATEGIA DE EXPERIENCIA</div><div class="k" data-lang="en" style="display:none">DISCOVERY &amp; EXPERIENCE STRATEGY</div>
+        <h3 data-lang="es">Reducir la incertidumbre</h3><h3 data-lang="en" style="display:none">Reducing uncertainty</h3>
+        <p data-lang="es">Uso la investigación para decidir antes de construir: Jobs to Be Done y ODI, validación de hipótesis, investigación cualitativa y cuantitativa, talleres multidisciplinarios y medición de satisfacción.</p>
+        <p data-lang="en" style="display:none">I use research to decide before building: Jobs to Be Done and ODI, hypothesis validation, qualitative and quantitative research, cross-functional workshops and satisfaction measurement.</p>
+      </div>
+      <div class="dim reveal">
+        <div class="k" data-lang="es">LIDERAZGO TRANSVERSAL DE PRODUCTO</div><div class="k" data-lang="en" style="display:none">CROSS-FUNCTIONAL PRODUCT LEADERSHIP</div>
+        <h3 data-lang="es">Conectar equipos y productos</h3><h3 data-lang="en" style="display:none">Connecting teams and products</h3>
+        <p data-lang="es">Trabajo con PMs, POs, ingeniería, tecnología, áreas comerciales y gerencia. Conocer varios productos a la vez me permite ver relaciones, dependencias y oportunidades que quedan fuera de la vista de un solo equipo.</p>
+        <p data-lang="en" style="display:none">I work with PMs, POs, engineering, technology, sales and leadership. Knowing several products at once lets me see connections, dependencies and opportunities a single team can miss.</p>
+      </div>
+      <div class="dim reveal">
+        <div class="k" data-lang="es">INNOVACIÓN, IA Y MEDICIÓN</div><div class="k" data-lang="en" style="display:none">INNOVATION, AI &amp; MEASUREMENT</div>
+        <h3 data-lang="es">Desarrollar capacidades</h3><h3 data-lang="en" style="display:none">Building capabilities</h3>
+        <p data-lang="es">Impulso la inteligencia artificial, el prototipado, la automatización, el Design System y las plataformas de adopción digital. No para sumar herramientas, sino para que los equipos experimenten, aprendan y entreguen más rápido.</p>
+        <p data-lang="en" style="display:none">I push for AI, prototyping, automation, the Design System and digital adoption platforms. Not to add tools, but so teams can experiment, learn and deliver faster.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 03 · PORTAFOLIO ═════════ -->
+<section id="productos">
+  <div class="wrap">
+    <p class="eyebrow"><span class="n">03</span><span data-lang="es">Alcance</span><span data-lang="en" style="display:none">Scope</span></p>
+    <h2 data-lang="es">Diez productos e iniciativas en los que he influido.</h2>
+    <h2 data-lang="en" style="display:none">Ten products and initiatives I've shaped.</h2>
+    <p data-lang="es">De la videotelemática a la logística, el mantenimiento y la IA operacional. Mi nivel de participación varía en cada uno: en algunos lideré la investigación, en otros acompañé al equipo.</p>
+    <p data-lang="en" style="display:none">From video telematics to logistics, maintenance and operational AI. My level of involvement varies: in some I led the research, in others I guided the team.</p>
+    <div class="products reveal">
+      <div class="prod prod--hl"><div class="t">Cámaras en Línea</div><div class="d" data-lang="es">De una solución de terceros a una experiencia propia de videotelemática.</div><div class="d" data-lang="en" style="display:none">From a third-party solution to Satrack's own video telematics experience.</div></div>
+      <div class="prod prod--hl"><div class="t">IA Satrack</div><div class="d" data-lang="es">Resúmenes inteligentes, hallazgos accionables y nuevas interacciones con IA.</div><div class="d" data-lang="en" style="display:none">Smart summaries, actionable insights and new AI-driven interactions.</div></div>
+      <div class="prod prod--hl"><div class="t">Userpilot</div><div class="d" data-lang="es">Onboarding, adopción y medición de la experiencia.</div><div class="d" data-lang="en" style="display:none">Onboarding, adoption and experience measurement.</div></div>
+      <div class="prod"><div class="t">Design System</div><div class="d" data-lang="es">Construcción, evolución y adopción en todos los productos.</div><div class="d" data-lang="en" style="display:none">Built, evolved and adopted across all products.</div></div>
+      <div class="prod"><div class="t" data-lang="es">Monitor de Rutas</div><div class="t" data-lang="en" style="display:none">Route Monitor</div><div class="d" data-lang="es">Evolución de las experiencias de seguimiento y monitoreo.</div><div class="d" data-lang="en" style="display:none">Evolving tracking and monitoring experiences.</div></div>
+      <div class="prod"><div class="t" data-lang="es">Torre de Control</div><div class="t" data-lang="en" style="display:none">Control Tower</div><div class="d" data-lang="es">Arquitectura de información y experiencia operativa.</div><div class="d" data-lang="en" style="display:none">Information architecture and operational experience.</div></div>
+      <div class="prod"><div class="t">Satrack Conecta</div><div class="d" data-lang="es">Investigación y diseño en iniciativas B2B.</div><div class="d" data-lang="en" style="display:none">Research and design for B2B initiatives.</div></div>
+      <div class="prod"><div class="t">Satrack Carga</div><div class="d" data-lang="es">Investigación con transportistas: matching, verificación y experiencia de conductor y vehículo.</div><div class="d" data-lang="en" style="display:none">Research with carriers: matching, verification, and the driver and vehicle experience.</div></div>
+      <div class="prod"><div class="t" data-lang="es">Mantenimiento USA</div><div class="t" data-lang="en" style="display:none">Maintenance (USA)</div><div class="d" data-lang="es">Discovery de necesidades, validación de valor y disposición a pagar.</div><div class="d" data-lang="en" style="display:none">Discovery of needs, value validation and willingness to pay.</div></div>
+      <div class="prod"><div class="t" data-lang="es">Alarmas</div><div class="t" data-lang="en" style="display:none">Alarms</div><div class="d" data-lang="es">Configuración y gestión, incluidas las apps móviles.</div><div class="d" data-lang="en" style="display:none">Setup and management, including the mobile apps.</div></div>
+    </div>
+    <p class="note" data-lang="es">Los tres primeros se presentan como casos destacados a continuación.</p>
+    <p class="note" data-lang="en" style="display:none">The first three are featured below.</p>
+  </div>
+</section>
+
+<!-- ═════════ 04 · CASOS ═════════ -->
+<section id="casos">
+  <div class="wrap">
+    <p class="eyebrow"><span class="n">04</span><span data-lang="es">Casos destacados</span><span data-lang="en" style="display:none">Featured work</span></p>
+    <h2 data-lang="es">Tres ejemplos de cómo trabajo.</h2>
+    <h2 data-lang="en" style="display:none">Three examples of how I work.</h2>
+
+    <!-- Cámaras -->
+    <article class="case case--main reveal">
+      <div class="case-head">
+        <h3 data-lang="es">Cámaras en Línea: de GPS a videotelemática</h3>
+        <h3 data-lang="en" style="display:none">Cámaras en Línea: from GPS to video telematics</h3>
+        <span class="chip chip--dev" data-lang="es">Rediseño rumbo a Beta</span><span class="chip chip--dev" data-lang="en" style="display:none">Redesign heading to Beta</span>
+      </div>
+      <p data-lang="es">La compañía decidió evolucionar de una propuesta centrada en GPS hacia la videotelemática. Mi trabajo fue convertir esa dirección de negocio en una estrategia de investigación y diseño, y acompañar la evolución de una solución de terceros a una experiencia propia de Satrack.</p>
+      <p data-lang="en" style="display:none">The company decided to move from a GPS-centered offering toward video telematics. My job was to turn that business direction into a research and design strategy, and to guide the evolution from a third-party solution to Satrack's own experience.</p>
+      <div class="case-grid">
+        <div class="case-block">
+          <div class="k" data-lang="es">El problema real</div><div class="k" data-lang="en" style="display:none">The real problem</div>
+          <div class="stat"><span class="v">72%</span><span class="l" data-lang="es">de las menciones de problemas en entrevistas fueron de streaming y conectividad.</span><span class="l" data-lang="en" style="display:none">of problem mentions in interviews were about streaming and connectivity.</span></div>
+          <p data-lang="es">Los clientes valoraban el video como evidencia ante incidentes, pero llegar al clip correcto era manual. Y cuando fallaba la red celular, culpaban al producto: el problema no era la cámara, era la confianza.</p>
+          <p data-lang="en" style="display:none">Customers valued video as evidence after an incident, but getting to the right clip was manual. And when the cellular network failed, they blamed the product: the problem wasn't the camera, it was trust.</p>
+        </div>
+        <div class="case-block">
+          <div class="k" data-lang="es">Mi aporte</div><div class="k" data-lang="en" style="display:none">My contribution</div>
+          <p data-lang="es">Definí la estrategia de investigación (entrevistas, encuestas en plataforma, visitas a clientes B2B y medición de satisfacción), facilité un taller de discovery con producto, ingeniería y hardware, guié al equipo de diseño y participé directamente en decisiones de UX/UI en Figma.</p>
+          <p data-lang="en" style="display:none">I set the research strategy (interviews, in-platform surveys, B2B customer visits and satisfaction measurement), facilitated a discovery workshop with product, engineering and hardware, guided the design team and contributed hands-on to UX/UI decisions in Figma.</p>
+        </div>
+      </div>
+      <div class="flows">
+        <div class="flow">
+          <div class="k" data-lang="es">Antes: el operador busca</div><div class="k" data-lang="en" style="display:none">Before: the operator searches</div>
+          <ul class="steps" data-lang="es"><li>Buscar el vehículo</li><li class="ar">→</li><li>Adivinar la hora</li><li class="ar">→</li><li>Pedir el video</li><li class="ar">→</li><li>Esperar</li><li class="ar">→</li><li>Revisar</li></ul>
+          <ul class="steps" data-lang="en" style="display:none"><li>Find the vehicle</li><li class="ar">→</li><li>Guess the time</li><li class="ar">→</li><li>Request video</li><li class="ar">→</li><li>Wait</li><li class="ar">→</li><li>Review</li></ul>
+        </div>
+        <div class="flow flow--after">
+          <div class="k" data-lang="es">Propuesta: el producto trae el evento</div><div class="k" data-lang="en" style="display:none">Proposal: the product brings the event</div>
+          <ul class="steps" data-lang="es"><li>Evento detectado</li><li class="ar">→</li><li>Contexto</li><li class="ar">→</li><li>Evidencia</li><li class="ar">→</li><li>Decisión</li></ul>
+          <ul class="steps" data-lang="en" style="display:none"><li>Detected event</li><li class="ar">→</li><li>Context</li><li class="ar">→</li><li>Evidence</li><li class="ar">→</li><li>Decision</li></ul>
+        </div>
+      </div>
+      <p style="margin-top:20px" data-lang="es"><strong>Dónde está hoy:</strong> la nueva experiencia orientada a eventos está en desarrollo y pruebas, rumbo a la Beta, con una medición de satisfacción de base lista para comparar el antes y el después.</p>
+      <p style="margin-top:20px;display:none" data-lang="en"><strong>Where it stands:</strong> the new event-driven experience is in development and testing, heading to Beta, with a satisfaction baseline ready to compare before and after.</p>
+    </article>
+
+    <div class="cases-2">
+      <!-- IA Satrack -->
+      <article class="case reveal">
+        <div class="case-head">
+          <h3>IA Satrack</h3>
+          <span class="chip chip--exp" data-lang="es">En exploración</span><span class="chip chip--exp" data-lang="en" style="display:none">Exploration</span>
+        </div>
+        <p data-lang="es">Convertir los datos de recorridos, paradas, excesos de velocidad y eventos operativos en hallazgos comprensibles y acciones recomendadas.</p>
+        <p data-lang="en" style="display:none">Turning trip, stop, speeding and operational event data into clear insights and recommended actions.</p>
+        <p data-lang="es"><strong>Mi aporte:</strong> definir qué información entregar, a quién, en qué momento y cómo lograr que el cliente encuentre valor en ella; explorar resúmenes ejecutivos y asistentes que pasan de la visualización de datos a la decisión asistida.</p>
+        <p data-lang="en" style="display:none"><strong>My contribution:</strong> deciding what information to deliver, to whom, when, and how customers find value in it; exploring executive summaries and assistants that move from data visualization to assisted decision-making.</p>
+      </article>
+      <!-- Userpilot -->
+      <article class="case reveal">
+        <div class="case-head">
+          <h3 data-lang="es">Userpilot: medir la experiencia</h3><h3 data-lang="en" style="display:none">Userpilot: measuring the experience</h3>
+          <span class="chip chip--live" data-lang="es">En uso</span><span class="chip chip--live" data-lang="en" style="display:none">In use</span>
+        </div>
+        <p data-lang="es">Pasar de un diseño centrado en entregables a una experiencia que también se mide.</p>
+        <p data-lang="en" style="display:none">Moving from deliverable-centered design to an experience that is also measured.</p>
+        <p data-lang="es"><strong>Mi aporte:</strong> impulsé la prueba de concepto e implementación: tours de onboarding, encuestas de satisfacción en contexto, deeplinks y eventos de producto, para aprender del comportamiento real de los usuarios en web y móvil.</p>
+        <p data-lang="en" style="display:none"><strong>My contribution:</strong> I drove the proof of concept and rollout: onboarding tours, in-context satisfaction surveys, deeplinks and product events, so we learn from real user behavior on web and mobile.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ 05 · CONTRIBUCIÓN ESTRATÉGICA ═════════ -->
+<section id="estrategia">
+  <div class="wrap narrow">
+    <p class="eyebrow"><span class="n">05</span><span data-lang="es">Contribución estratégica</span><span data-lang="en" style="display:none">Strategic contribution</span></p>
+    <h2 data-lang="es">Entre la dirección del negocio y lo que llega al cliente.</h2>
+    <h2 data-lang="en" style="display:none">Between business direction and what reaches the customer.</h2>
+    <p data-lang="es">La estrategia la define la compañía. Mi aporte es construir las capacidades que permiten ejecutarla mejor.</p>
+    <p data-lang="en" style="display:none">The company sets the strategy. My contribution is building the capabilities that make it easier to execute well.</p>
+    <ol class="contrib">
+      <li class="reveal"><div><h3 data-lang="es">Institucionalizar Product Design</h3><h3 data-lang="en" style="display:none">Institutionalizing Product Design</h3><p data-lang="es">De una capacidad de diseño a un equipo con métodos, estándares, seguimiento e integración con Producto.</p><p data-lang="en" style="display:none">From a design capability to a team with methods, standards, follow-up and integration with Product.</p></div></li>
+      <li class="reveal"><div><h3 data-lang="es">Reducir la incertidumbre en las decisiones</h3><h3 data-lang="en" style="display:none">Reducing uncertainty in decisions</h3><p data-lang="es">Investigaciones, entrevistas, pruebas y experimentos para entender el problema antes de desarrollar la solución.</p><p data-lang="en" style="display:none">Research, interviews, tests and experiments to understand the problem before building the solution.</p></div></li>
+      <li class="reveal"><div><h3 data-lang="es">Conectar productos y áreas</h3><h3 data-lang="en" style="display:none">Connecting products and teams</h3><p data-lang="es">Consistencia entre productos, aprendizajes compartidos y menos decisiones de experiencia tomadas en aislamiento.</p><p data-lang="en" style="display:none">Consistency across products, shared learnings and fewer experience decisions made in isolation.</p></div></li>
+      <li class="reveal"><div><h3 data-lang="es">Construir capacidades para escalar</h3><h3 data-lang="en" style="display:none">Building capabilities to scale</h3><p data-lang="es">Design System y herramientas de investigación, prototipado y medición para trabajar con más consistencia y velocidad.</p><p data-lang="en" style="display:none">A Design System plus research, prototyping and measurement tools to work with more consistency and speed.</p></div></li>
+      <li class="reveal"><div><h3 data-lang="es">Acercar el diseño a los resultados del negocio</h3><h3 data-lang="en" style="display:none">Bringing design closer to business results</h3><p data-lang="es">Participación en iniciativas de adopción, fidelización, crecimiento, eficiencia y nuevas propuestas de valor.</p><p data-lang="en" style="display:none">Involvement in initiatives around adoption, retention, growth, efficiency and new value propositions.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ═════════ 06 · RESULTADOS ═════════ -->
+<section id="resultados">
+  <div class="wrap">
+    <p class="eyebrow"><span class="n">06</span><span data-lang="es">Resultados</span><span data-lang="en" style="display:none">Results</span></p>
+    <h2 data-lang="es">Lo que ha cambiado desde 2023.</h2>
+    <h2 data-lang="en" style="display:none">What has changed since 2023.</h2>
+    <div class="impact">
+      <div class="imp reveal"><div class="v">1.º</div><div class="l" data-lang="es">equipo de UX/UI de la compañía, construido desde cero</div><div class="l" data-lang="en" style="display:none">UX/UI team in the company, built from scratch</div></div>
+      <div class="imp reveal"><div class="v">−30%</div><div class="l" data-lang="es">en tiempos de entrega con el primer Design System</div><div class="l" data-lang="en" style="display:none">delivery time with the first Design System</div></div>
+      <div class="imp reveal"><div class="v">+20%</div><div class="l" data-lang="es">de satisfacción al incorporar investigación en proyectos core</div><div class="l" data-lang="en" style="display:none">satisfaction after bringing research into core projects</div></div>
+      <div class="imp reveal"><div class="v">10</div><div class="l" data-lang="es">productos e iniciativas con influencia directa de diseño</div><div class="l" data-lang="en" style="display:none">products and initiatives directly shaped by design</div></div>
+    </div>
+    <p class="note" data-lang="es">Además: OKRs de UX, reportes ejecutivos de impacto y diseño como actor estratégico en las decisiones de producto.</p>
+    <p class="note" data-lang="en" style="display:none">Plus: UX OKRs, executive impact reports and design as a strategic voice in product decisions.</p>
+
+    <h2 style="margin-top:56px" data-lang="es">Lo que aprendí en el camino.</h2>
+    <h2 style="margin-top:56px;display:none" data-lang="en">What I've learned along the way.</h2>
+    <div class="princ">
+      <div class="pr reveal"><h3 data-lang="es">Investigar antes de construir</h3><h3 data-lang="en" style="display:none">Research before building</h3><p data-lang="es">Una semana de discovery ahorra meses de desarrollo en la dirección equivocada.</p><p data-lang="en" style="display:none">A week of discovery saves months of building in the wrong direction.</p></div>
+      <div class="pr reveal"><h3 data-lang="es">Capacidades antes que funciones</h3><h3 data-lang="en" style="display:none">Capabilities before features</h3><p data-lang="es">Definir qué debe lograr el producto antes de limitarse a lo que la tecnología permite hoy.</p><p data-lang="en" style="display:none">Define what the product must achieve before settling for what technology allows today.</p></div>
+      <div class="pr reveal"><h3 data-lang="es">Medir si el usuario lo logró</h3><h3 data-lang="en" style="display:none">Measure whether users succeed</h3><p data-lang="es">Que una función exista no es el resultado. Que el usuario complete su tarea, sí.</p><p data-lang="en" style="display:none">A feature existing isn't the outcome. Users completing their task is.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ CTA ═════════ -->
+<section id="contacto">
+  <div class="wrap">
+    <div class="cta reveal">
+      <h2 data-lang="es">¿Hablamos de liderazgo de producto y diseño?</h2>
+      <h2 data-lang="en" style="display:none">Want to talk product and design leadership?</h2>
+      <p data-lang="es">Mentoría, capacitación, consultoría o una oportunidad de liderazgo: agenda 30 minutos o escríbeme por LinkedIn.</p>
+      <p data-lang="en" style="display:none">Mentoring, training, consulting or a leadership role: book 30 minutes or reach out on LinkedIn.</p>
+      <div class="btns">
+        <a href="https://calendar.app.google/Ah9FUJFuvgGMoAUU6" target="_blank" rel="noopener" class="btn btn--accent"><span data-lang="es">Agendar 30 min ↗</span><span data-lang="en" style="display:none">Book 30 min ↗</span></a>
+        <a href="https://www.linkedin.com/in/jhonobandorodriguez" target="_blank" rel="noopener" class="btn">LinkedIn ↗</a>
+      </div>
+    </div>
+    <div class="next">
+      <a href="/obi"><div class="k" data-lang="es">Siguiente caso</div><div class="k" data-lang="en" style="display:none">Next case study</div><div class="t" data-lang="es">Obi — el asistente de IA que construí</div><div class="t" data-lang="en" style="display:none">Obi — the AI assistant I built</div><div class="go" data-lang="es">Ver caso →</div><div class="go" data-lang="en" style="display:none">View case →</div></a>
+      <a href="/iris"><div class="k" data-lang="es">Caso de estudio</div><div class="k" data-lang="en" style="display:none">Case study</div><div class="t" data-lang="es">IRIS Bank — banca digital desde cero</div><div class="t" data-lang="en" style="display:none">IRIS Bank — digital banking from scratch</div><div class="go" data-lang="es">Ver caso →</div><div class="go" data-lang="en" style="display:none">View case →</div></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-l"><span data-lang="es">© 2026 Jhon Obando · Algunos detalles de producto se simplifican por confidencialidad.</span><span data-lang="en" style="display:none">© 2026 Jhon Obando · Some product details are simplified for confidentiality.</span></div>
+    <div class="footer-r">
+      <a href="https://www.linkedin.com/in/jhonobandorodriguez" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://be.net/kadiedgraphic" target="_blank" rel="noopener">Behance</a>
+      <a href="mailto:jhonobando@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const SUPABASE_URL = 'https://gbvhvqklyzzzbfyeejzk.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdidmh2cWtseXp6emJmeWVlanprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEwNTQ1MjksImV4cCI6MjA5NjYzMDUyOX0.yrfvZBNPNhhoMfH2gDTTV3xgyRuIH1Ie1aVaHKxjBM4';
+  const SESSION_ID = sessionStorage.getItem('sid') || (() => {
+    const id = Math.random().toString(36).slice(2) + Date.now().toString(36);
+    sessionStorage.setItem('sid', id);
+    return id;
+  })();
+  const DEVICE = window.innerWidth < 600 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop';
+  const SCREEN = `${window.screen.width}x${window.screen.height}`;
+  // Origen de la visita: ?src=canal en el enlace > sitio que la envió > direct.
+  // Se guarda en la sesión para que todas las páginas de la visita conserven el mismo origen.
+  const REFERRER = (() => {
+    try {
+      const params = new URLSearchParams(location.search);
+      const src = (params.get('src') || params.get('utm_source') || '').toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 30);
+      if (src) {
+        sessionStorage.setItem('visit_src', src);
+        params.delete('src'); params.delete('utm_source');
+        const q = params.toString();
+        history.replaceState(null, '', location.pathname + (q ? '?' + q : '') + location.hash);
+        return src;
+      }
+      const saved = sessionStorage.getItem('visit_src');
+      if (saved) return saved;
+      let origin = 'direct';
+      if (document.referrer) {
+        const host = new URL(document.referrer).hostname.replace(/^www\./, '');
+        if (host === 'jhonobi.com' || host === location.hostname.replace(/^www\./, '')) return host;
+        if (/linkedin\.com$|lnkd\.in$/.test(host)) origin = 'linkedin';
+        else if (/facebook\.com$|fb\.me$/.test(host)) origin = 'facebook';
+        else if (/instagram\.com$/.test(host)) origin = 'instagram';
+        else if (/whatsapp\.com$|wa\.me$/.test(host)) origin = 'whatsapp';
+        else if (/(^|\.)google\./.test(host)) origin = 'google';
+        else if (/(^|\.)bing\.com$|duckduckgo\.com$/.test(host)) origin = 'buscador';
+        else if (host === 't.co' || /(^|\.)x\.com$|twitter\.com$/.test(host)) origin = 'x';
+        else origin = host;
+      }
+      sessionStorage.setItem('visit_src', origin);
+      return origin;
+    } catch(e) { return 'direct'; }
+  })();
+  const PAGE = window.location.pathname || '/satrack';
+
+  // Si este navegador es de Jhon (marcado al entrar al dashboard), no se registra nada
+  const IS_OWNER = (() => { try { return !!localStorage.getItem('jhon_owner'); } catch(e) { return false; } })();
+  // Bots y navegadores automáticos (revisores de enlaces de redes sociales, buscadores, etc.)
+  const IS_BOT = (() => {
+    try {
+      if (navigator.webdriver) return true;
+      if (/bot|crawl|spider|slurp|headless|lighthouse|facebookexternalhit|preview/i.test(navigator.userAgent)) return true;
+      const sc = `${screen.width}x${screen.height}`;
+      return sc === '800x600' || sc === '2000x2000' || screen.width === 0;
+    } catch(e) { return false; }
+  })();
+
+  async function track(event, extra = {}) {
+    if (IS_OWNER || IS_BOT) return;
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          session_id: SESSION_ID,
+          event, page: PAGE, referrer: REFERRER,
+          device: DEVICE, screen: SCREEN,
+          scroll_depth: extra.scroll_depth || 0,
+          created_at: new Date().toISOString()
+        })
+      });
+    } catch(e) {}
+  }
+
+  track('page_view');
+
+  const scrollMilestones = new Set();
+  window.addEventListener('scroll', () => {
+    const pct = Math.round((window.scrollY + window.innerHeight) / document.body.scrollHeight * 100);
+    [25,50,75,100].forEach(m => {
+      if (pct >= m && !scrollMilestones.has(m)) {
+        scrollMilestones.add(m);
+        track(`scroll_${m}`, { scroll_depth: m });
+      }
+    });
+  }, { passive: true });
+
+  // 4. Time on page (fetch + keepalive; visibilitychange funciona en iPhone)
+  const startTime = Date.now();
+  let timeSent = false;
+  function sendTimeOnPage() {
+    if (IS_OWNER || IS_BOT || timeSent) return;
+    timeSent = true;
+    const seconds = Math.round((Date.now() - startTime) / 1000);
+    if (seconds < 1) return;
+    try {
+      fetch(`${SUPABASE_URL}/rest/v1/events`, {
+        method: 'POST',
+        keepalive: true,
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          session_id: SESSION_ID,
+          event: `time_on_page_${seconds}s`,
+          page: PAGE,
+          referrer: REFERRER,
+          device: DEVICE,
+          screen: SCREEN,
+          scroll_depth: Math.max(...[...scrollMilestones, 0]),
+          created_at: new Date().toISOString()
+        })
+      });
+    } catch(e) {}
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') sendTimeOnPage();
+  });
+  window.addEventListener('pagehide', sendTimeOnPage);
+  // Clics de esta página
+  document.addEventListener('click', e => {
+    const el = e.target.closest('a, button');
+    if (!el) return;
+    const href = el.href || '';
+    if (href.includes('calendar.app.google')) track('click_booking');
+    else if (href.includes('linkedin.com')) track('click_linkedin');
+    else if (href.includes('behance') || href.includes('be.net')) track('click_behance');
+    else if (href.startsWith('mailto:')) track('click_email');
+    else if (href.includes('/obi')) track('click_project_obi');
+    else if (href.includes('/iris')) track('click_project_iris');
+    else if (el.classList.contains('lang-btn')) track(`click_lang_${el.textContent.trim().toLowerCase()}`);
+  });
+
+  // Aparición suave al hacer scroll
+  (function(){
+    const els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) { els.forEach(el => el.classList.add('in')); return; }
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    }), { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(el => io.observe(el));
+  })();
+</script>
+<script>
+  function setLang(lang) {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-lang]').forEach(el => {
+      el.style.display = el.dataset.lang === lang ? '' : 'none';
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+    });
+    localStorage.setItem('lang', lang);
+  }
+  const saved = localStorage.getItem('lang') || 'es';
+  setLang(saved);
+</script>
+</body>
+</html>

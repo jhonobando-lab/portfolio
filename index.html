@@ -540,20 +540,19 @@
         </div>
 
         <!-- SATRACK -->
-        <div class="proj-card" style="cursor:default;min-width:280px;max-width:300px;flex-shrink:0">
+        <div class="proj-card" onclick="window.location.href='/satrack'" style="cursor:pointer;min-width:280px;max-width:300px;flex-shrink:0">
           <div class="proj-top">
             <div class="proj-glyph">🚛</div>
             <span class="proj-sector">Fleet Tech</span>
           </div>
-          <div class="proj-name">Satrack — Head of Product Design & AI</div>
-          <div class="proj-desc" data-lang="es">Lidero producto e IA en la empresa líder de telemática en Colombia. Roadmap, métricas de adopción, automatización con agentes de IA y equipo de 5 diseñadores.</div>
-          <div class="proj-desc" data-lang="en" style="display:none">Leading product & AI at Colombia's top telematics company. Roadmap, adoption metrics, AI agent automation and a team of 5 designers.</div>
-          <div class="proj-tags"><span class="proj-tag">Liderazgo</span><span class="proj-tag">Roadmap</span><span class="proj-tag">AI Agents</span><span class="proj-tag">DesignOps</span></div>
-          <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:11px;color:var(--t2)" data-lang="es">próximamente</span>
-            <span style="font-size:11px;color:var(--t2)" data-lang="en" style="display:none">coming soon</span>
-            <span style="font-size:12px;color:var(--t2)">·</span>
-          </div>
+          <div class="proj-name">Satrack — Product Design & Experience Leader</div>
+          <div class="proj-desc" data-lang="es">Lidero Product Design y experiencia en la empresa líder de telemática en Colombia: equipo, discovery, estrategia de producto e IA en 10 productos e iniciativas.</div>
+          <div class="proj-desc" data-lang="en" style="display:none">Leading Product Design and experience at Colombia's top telematics company: team, discovery, product strategy and AI across 10 products and initiatives.</div>
+          <div class="proj-tags"><span class="proj-tag">Liderazgo</span><span class="proj-tag">Discovery</span><span class="proj-tag">Estrategia</span><span class="proj-tag">IA</span></div>
+          <div class="proj-foot">
+              <a href="/satrack" class="proj-cta" data-lang="es">Ver caso de estudio →</a>
+              <a href="/satrack" class="proj-cta" data-lang="en" style="display:none">View case study →</a>
+            </div>
         </div>
 
         <!-- IRIS -->
@@ -1095,6 +1094,7 @@
     else if (href.includes('/visa') || el.closest('[onclick*="visa"]')) track('click_project_visa');
     else if (href.includes('/iris') || el.closest('[onclick*="iris"]')) track('click_project_iris');
     else if (href.includes('/obi') || el.closest('[onclick*="obi"]')) track('click_project_obi');
+    else if (href.includes('/satrack') || el.closest('[onclick*="satrack"]')) track('click_project_satrack');
     else if (href.includes('wa.me')) track('click_whatsapp');
     else if (href.includes('linkedin')) track('click_linkedin');
     else if (href.includes('behance') || href.includes('be.net')) track('click_behance');

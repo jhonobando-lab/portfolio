@@ -302,7 +302,7 @@
   const SCROLL_COLORS = { '25%':'#e8ff6e', '50%':'#b8d44e', '75%':'#88aa2e', '100%':'#4ade80' };
 
   // Nombres legibles de las páginas
-  const PAGE_LABELS = {'/':'Inicio','/obi':'Caso Obi','/iris':'Caso IRIS','/visa':'Caso Visa','/ilustraciones':'Ilustraciones','/privacidad':'Privacidad'};
+  const PAGE_LABELS = {'/':'Inicio','/obi':'Caso Obi','/iris':'Caso IRIS','/visa':'Caso Visa','/satrack':'Caso Satrack','/ilustraciones':'Ilustraciones','/privacidad':'Privacidad'};
   const pageLabel = p => PAGE_LABELS[(p || '/').replace(/\.html$/, '').replace(/\/$/, '') || '/'] || p || '—';
 
   function renderRetention(container, pages, events) {
@@ -450,7 +450,7 @@
       const f50 = inVisit(sessOf(e => ['scroll_50','scroll_75','scroll_100'].includes(e.event)));
       const f100 = inVisit(sessOf(e => e.event === 'scroll_100'));
       const CLICK_GROUPS = {
-        'Ver un caso': ['click_project_obi','click_project_iris','click_project_visa'],
+        'Ver un caso': ['click_project_obi','click_project_iris','click_project_visa','click_project_satrack'],
         'Agendar llamada': ['click_booking'],
         'Solicitar CV': ['click_cv_request'],
         'LinkedIn': ['click_linkedin'],
@@ -488,7 +488,7 @@
       renderBar(document.getElementById('pages-chart'), pgData, pgData[0]?.[1]||1);
 
       // Clicks
-      const clickLabels={click_project_visa:'Caso Visa',click_project_iris:'Caso IRIS',click_whatsapp:'WhatsApp',click_linkedin:'LinkedIn',click_behance:'Behance',click_email:'Email',click_github:'GitHub',click_share:'Compartir',click_booking:'Agendar llamada',click_cv_request:'Solicitar CV',click_project_obi:'Caso Obi'};
+      const clickLabels={click_project_visa:'Caso Visa',click_project_iris:'Caso IRIS',click_whatsapp:'WhatsApp',click_linkedin:'LinkedIn',click_behance:'Behance',click_email:'Email',click_github:'GitHub',click_share:'Compartir',click_booking:'Agendar llamada',click_cv_request:'Solicitar CV',click_project_obi:'Caso Obi',click_project_satrack:'Caso Satrack'};
       const clkCount={};
       events.filter(e=>e.event?.startsWith('click')).forEach(e=>{const l=clickLabels[e.event]||e.event;clkCount[l]=(clkCount[l]||0)+1;});
       const clkData=Object.entries(clkCount).sort((a,b)=>b[1]-a[1]);
@@ -500,7 +500,7 @@
       renderBar(document.getElementById('scroll-chart'), Object.entries(scCount), Math.max(...Object.values(scCount),1));
 
       // Retención por página
-      const trackedPages=['/','/iris','/visa','/obi','/ilustraciones'];
+      const trackedPages=['/','/satrack','/iris','/visa','/obi','/ilustraciones'];
       const retPages=trackedPages
         .map(page=>({page,visitors:new Set(events.filter(e=>e.event==='page_view'&&e.page===page).map(e=>e.session_id)).size}))
         .filter(p=>p.visitors>0).sort((a,b)=>b.visitors-a.visitors);

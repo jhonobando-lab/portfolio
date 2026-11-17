@@ -19,6 +19,8 @@ const routes = {
   '/obi.html': 'obi.html',
   '/ilustraciones': 'ilustraciones.html',
   '/ilustraciones.html': 'ilustraciones.html',
+  '/satrack': 'satrack.html',
+  '/satrack.html': 'satrack.html',
   '/privacidad': 'privacidad.html',
   '/privacidad.html': 'privacidad.html',
 };
