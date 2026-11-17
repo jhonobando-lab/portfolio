@@ -301,6 +301,10 @@
 
   const SCROLL_COLORS = { '25%':'#e8ff6e', '50%':'#b8d44e', '75%':'#88aa2e', '100%':'#4ade80' };
 
+  // Nombres legibles de las páginas
+  const PAGE_LABELS = {'/':'Inicio','/obi':'Caso Obi','/iris':'Caso IRIS','/visa':'Caso Visa','/ilustraciones':'Ilustraciones','/privacidad':'Privacidad'};
+  const pageLabel = p => PAGE_LABELS[(p || '/').replace(/\.html$/, '').replace(/\/$/, '') || '/'] || p || '—';
+
   function renderRetention(container, pages, events) {
     if (!pages.length) { container.innerHTML = '<div class="loading">Sin datos aún</div>'; return; }
     const depths = ['25%','50%','75%','100%'];
@@ -317,7 +321,7 @@
         : readPct > 0 ? `<span style="font-size:10px;color:var(--t3);margin-left:4px">${readPct}%</span>` : '';
       return `
         <div class="retention-row">
-          <div class="retention-page" title="${page}">${page}</div>
+          <div class="retention-page" title="${page}">${pageLabel(page)}</div>
           <div class="retention-bars">
             ${bars.map(({d,pct})=>`
               <div class="retention-bar-wrap">
@@ -366,7 +370,7 @@
         : '';
       return `
         <div class="bar-row" style="margin-bottom:14px">
-          <div class="bar-label" title="${page}" style="width:100px">${page}</div>
+          <div class="bar-label" title="${page}" style="width:100px">${pageLabel(page)}</div>
           <div class="bar-track">
             <div class="bar-fill" style="width:${Math.round(avg/maxAvg*100)}%;background:${avg>=120?'var(--green)':'var(--accent)'}"></div>
           </div>
@@ -479,7 +483,7 @@
 
       // Pages
       const pgCount={};
-      pageViews.forEach(e=>{const p=e.page||'/';pgCount[p]=(pgCount[p]||0)+1;});
+      pageViews.forEach(e=>{const p=pageLabel(e.page);pgCount[p]=(pgCount[p]||0)+1;});
       const pgData=Object.entries(pgCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
       renderBar(document.getElementById('pages-chart'), pgData, pgData[0]?.[1]||1);
 
@@ -512,7 +516,7 @@
           <tbody>${events.slice(0,40).map(e=>`
             <tr>
               <td><span class="event-badge ${badgeClass(e.event)}">${e.event||'—'}</span></td>
-              <td>${e.page||'—'}</td><td>${e.referrer||'direct'}</td>
+              <td>${pageLabel(e.page)}</td><td>${e.referrer||'direct'}</td>
               <td>${e.device||'—'}</td><td>${timeAgo(e.created_at)}</td>
             </tr>`).join('')}
           </tbody>
