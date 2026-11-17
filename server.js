@@ -105,7 +105,7 @@ function loginPage(error) {
 }
 
 function send(res, status, body, headers = {}) {
-  res.writeHead(status, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', ...headers });
+  res.writeHead(status, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex', ...headers });
   res.end(body);
 }
 
@@ -148,6 +148,16 @@ http.createServer((req, res) => {
   let pathname;
   try { pathname = decodeURIComponent(new URL(req.url, 'http://x').pathname); }
   catch (e) { return send(res, 400, 'Bad request'); }
+
+  // Archivos para buscadores (Google)
+  if (pathname === '/robots.txt' || pathname === '/sitemap.xml') {
+    const isXml = pathname === '/sitemap.xml';
+    return fs.readFile(path.join(__dirname, pathname.slice(1)), (err, data) => {
+      if (err) { res.writeHead(404); res.end('Not found'); return; }
+      res.writeHead(200, { 'Content-Type': isXml ? 'application/xml; charset=utf-8' : 'text/plain; charset=utf-8', 'Cache-Control': 'public, max-age=3600' });
+      res.end(data);
+    });
+  }
 
   // Dashboard (protegido)
   if (pathname === '/dashboard' || pathname === '/dashboard.html' || pathname.startsWith('/dashboard/')) {
